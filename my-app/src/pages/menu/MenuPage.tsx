@@ -8,11 +8,13 @@ export function MenuPage() {
     const [openPopup, setOpenPopup] = useState(false);
     const [selectedSoup, setSelectedSoup] = useState<Soup | null>(null);
 
-    const PopUp = () => {
-        console.log(" openPopup = " + openPopup);
-        console.log(" selectedSoup = " + selectedSoup);
-        if (!openPopup || !selectedSoup) return null;
+    const [selectedNoodle, setSelectedNoodle] = useState<number | null>(null);
+    const [selectedMeat, setSelectedMeat] = useState<number[]>([]);
+    const [selectedVegetable, setSelectedVegetable] = useState<number | null>(null);
 
+
+    const PopUp = () => {
+        if (!openPopup || !selectedSoup) return null;
 
         return (
             <div
@@ -20,26 +22,100 @@ export function MenuPage() {
                 onClick={() => setOpenPopup(false)}
             >
                 <div
-                    className="bg-white rounded-2xl p-6 w-80"
+                    className="bg-white rounded-2xl p-6 w-96 max-h-[90vh] overflow-y-auto"
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <h2 className="text-xl font-bold mb-2">
+                    <h2 className="text-xl font-bold mb-1">
                         {selectedSoup.name}
                     </h2>
 
-                    <p className="text-gray-500 mb-4">
-                        ราคา 20 บาท
-                    </p>
+                    <p className="text-gray-500 mb-4">ราคา 20 บาท</p>
+
+                    {/* เลือกเส้น */}
+                    <div className="mb-4">
+                        <h3 className="font-semibold mb-2">เลือกเส้น</h3>
+                        <div className="space-y-2">
+                            {selectedSoup.noodleIds.map((n) => (
+                                <label
+                                    key={n.id}
+                                    className="flex items-center gap-2 cursor-pointer"
+                                >
+                                    <input
+                                        type="radio"
+                                        name="noodle"
+                                        checked={selectedNoodle === n.id}
+                                        onChange={() => setSelectedNoodle(n.id)}
+                                    />
+                                    <span>{n.name}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* เลือกเครื่อง (เลือกได้หลายอย่าง) */}
+                    <div className="mb-4">
+                        <h3 className="font-semibold mb-2">เลือกเครื่อง</h3>
+                        <div className="space-y-2">
+                            {selectedSoup.meatIds.map((m) => (
+                                <label
+                                    key={m.id}
+                                    className="flex items-center gap-2 cursor-pointer"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedMeat.includes(m.id)}
+                                        onChange={() =>
+                                            setSelectedMeat((prev) =>
+                                                prev.includes(m.id)
+                                                    ? prev.filter((id) => id !== m.id)
+                                                    : [...prev, m.id]
+                                            )
+                                        }
+                                    />
+                                    <span>{m.name}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* เลือกผัก */}
+                    <div className="mb-6">
+                        <h3 className="font-semibold mb-2">ผัก</h3>
+                        <div className="space-y-2">
+                            {selectedSoup.vegetableIds.map((v) => (
+                                <label
+                                    key={v.id}
+                                    className="flex items-center gap-2 cursor-pointer"
+                                >
+                                    <input
+                                        type="radio"
+                                        name="vegetable"
+                                        checked={selectedVegetable === v.id}
+                                        onChange={() => setSelectedVegetable(v.id)}
+                                    />
+                                    <span>{v.name}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
 
                     <button
                         className="w-full py-2 rounded-xl bg-blue-500 text-white"
-                        onClick={() => setOpenPopup(false)}
+                        onClick={() => {
+                            console.log({
+                                noodle: selectedNoodle,
+                                meat: selectedMeat,
+                                vegetable: selectedVegetable,
+                            });
+                            setOpenPopup(false);
+                        }}
                     >
-                        ปิด
+                        ยืนยัน
                     </button>
                 </div>
             </div>
         );
+
     };
 
     return (
