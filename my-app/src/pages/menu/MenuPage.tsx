@@ -11,6 +11,7 @@ export function MenuPage() {
     const [selectedNoodle, setSelectedNoodle] = useState<number | null>(null);
     const [selectedMeat, setSelectedMeat] = useState<number[]>([]);
     const [selectedVegetable, setSelectedVegetable] = useState<number | null>(null);
+    const [quantity, setQuantity] = useState(1);
 
 
     const PopUp = () => {
@@ -54,7 +55,7 @@ export function MenuPage() {
 
                     {/* เลือกเครื่อง (เลือกได้หลายอย่าง) */}
                     <div className="mb-4">
-                        <h3 className="font-semibold mb-2">เลือกเครื่อง</h3>
+                        <h3 className="font-semibold mb-2">เลือกเครื่อง (มากกว่า 1 อย่าง)</h3>
                         <div className="space-y-2">
                             {selectedSoup.meatIds.map((m) => (
                                 <label
@@ -99,19 +100,48 @@ export function MenuPage() {
                         </div>
                     </div>
 
+                    {/*ปุ่มเพิ่มจำนวน*/}
+                    <div className="flex items-center justify-between mb-4">
+                        <span className="font-semibold">จำนวนจาน</span>
+
+                        <div className="flex items-center gap-3">
+                            <button
+                                className="w-8 h-8 rounded-full bg-gray-200 text-lg"
+                                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                            >
+                                −
+                            </button>
+
+                            <span className="w-6 text-center">{quantity}</span>
+
+                            <button
+                                className="w-8 h-8 rounded-full bg-blue-500 text-white text-lg"
+                                onClick={() => setQuantity((q) => q + 1)}
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+
+                    {/*ปุ่มเพิ่มรายการอาหาร*/}
                     <button
                         className="w-full py-2 rounded-xl bg-blue-500 text-white"
                         onClick={() => {
                             console.log({
+                                soup: selectedSoup.name,
                                 noodle: selectedNoodle,
                                 meat: selectedMeat,
                                 vegetable: selectedVegetable,
+                                quantity,
+                                totalPrice: quantity * selectedSoup.price,
                             });
                             setOpenPopup(false);
                         }}
                     >
-                        ยืนยัน
+                        ยืนยัน ({quantity * selectedSoup.price} บาท)
                     </button>
+
                 </div>
             </div>
         );
