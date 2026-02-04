@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import db from "../../../db.json"
 import type { Soup } from "../../api/menuDetail";
 
@@ -13,9 +13,15 @@ export function MenuPage() {
     const [selectedVegetable, setSelectedVegetable] = useState<number | null>(null);
     const [quantity, setQuantity] = useState(1);
 
+    const [showWarning, setShowWarning] = useState(false);
 
-    const PopUp = () => {
+
+    const isInvalid = selectedNoodle === null || selectedVegetable === null || selectedMeat.length === 0;
+
+    const SelectMenuPopUp = () => {
         if (!openPopup || !selectedSoup) return null;
+
+
 
         return (
             <div
@@ -100,6 +106,9 @@ export function MenuPage() {
                         </div>
                     </div>
 
+                    {/* ข้อความแจ้งเตือน ว่าต้องเลือกให้ครบ */}
+                    {showWarning && <WarningPopUp />}
+
                     {/*ปุ่มเพิ่มจำนวน*/}
                     <div className="flex items-center justify-between mb-4">
                         <span className="font-semibold">จำนวนจาน</span>
@@ -126,7 +135,10 @@ export function MenuPage() {
 
                     {/*ปุ่มเพิ่มรายการอาหาร*/}
                     <button
-                        className="w-full py-2 rounded-xl bg-blue-500 text-white"
+                        //className="w-full py-2 rounded-xl bg-blue-500 text-white"
+
+                        disabled={isInvalid}
+                        className={`w-full py-2 rounded-xl text-white    ${isInvalid ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 active:scale-95"}  `}
                         onClick={() => {
                             console.log({
                                 soup: selectedSoup.name,
@@ -136,6 +148,23 @@ export function MenuPage() {
                                 quantity,
                                 totalPrice: quantity * selectedSoup.price,
                             });
+
+
+                            // ckeck วัตถุดิบ
+                            if (isInvalid) {
+                                setShowWarning(true)
+                                return;
+                            }
+                            setShowWarning(false)
+
+
+                            // ส่งข้อมูลไปหน้าลิส
+
+
+                            // clear state
+
+
+                            // ปิด popup
                             setOpenPopup(false);
                         }}
                     >
@@ -147,6 +176,21 @@ export function MenuPage() {
         );
 
     };
+
+    const WarningPopUp = () => {
+        return (
+            < div className="font-bold" >
+                กรุณาเลือกเส้น เครื่องเคียง ผัก ให้ครบ
+            </div >
+        );
+    };
+
+    useEffect(() => {
+        if (!isInvalid) {
+            setShowWarning(false);
+        }
+    }, [isInvalid]);
+
 
     return (
         <div className="container py-12 space-y-8">
@@ -173,7 +217,7 @@ export function MenuPage() {
                     </button>
                 </div>
             ))}
-            <PopUp />
+            <SelectMenuPopUp />
         </div>
     )
 }
