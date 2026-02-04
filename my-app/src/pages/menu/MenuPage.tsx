@@ -1,12 +1,12 @@
 import { useState } from "react"
 import db from "../../../db.json"
-import type { Soup } from "../../api/menuDetail";
+import type { Menu } from "../../api/menuDetail";
 
 
 export function MenuPage() {
 
     const [openPopup, setOpenPopup] = useState(false);
-    const [selectedSoup, setSelectedSoup] = useState<Soup | null>(null);
+    const [selectedSoup, setSelectedSoup] = useState<Menu | null>(null);
 
     const [selectedNoodle, setSelectedNoodle] = useState<number | null>(null);
     const [selectedMeat, setSelectedMeat] = useState<number[]>([]);

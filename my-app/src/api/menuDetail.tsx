@@ -1,4 +1,4 @@
-export interface Soup {
+export interface Menu {
     id: number;
     name: string;
 
