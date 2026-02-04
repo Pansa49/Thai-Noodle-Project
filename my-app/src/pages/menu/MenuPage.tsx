@@ -13,7 +13,6 @@ export function MenuPage() {
     const [selectedVegetable, setSelectedVegetable] = useState<number | null>(null);
     const [quantity, setQuantity] = useState(1);
 
-
     const isInvalid = selectedNoodle === null || selectedVegetable === null || selectedMeat.length === 0;
 
     const SelectMenuPopUp = () => {
@@ -28,9 +27,7 @@ export function MenuPage() {
                     className="bg-white rounded-2xl p-6 w-96 max-h-[90vh] overflow-y-auto"
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <h2 className="text-xl font-bold mb-1">
-                        {selectedSoup.name}
-                    </h2>
+                    <h2 className="text-xl font-bold mb-1">{selectedSoup.name}</h2>
 
                     <p className="text-gray-500 mb-4">ราคา 20 บาท</p>
 
@@ -102,7 +99,6 @@ export function MenuPage() {
                         </div>
                     </div>
 
-
                     {/*ปุ่มเพิ่มจำนวน*/}
                     <div className="flex items-center justify-between mb-4">
                         <span className="font-semibold">จำนวนจาน</span>
@@ -125,7 +121,6 @@ export function MenuPage() {
                             </button>
                         </div>
                     </div>
-
 
                     {/*ปุ่มเพิ่มรายการอาหาร*/}
                     <button
@@ -171,12 +166,12 @@ export function MenuPage() {
     return (
         <div className="container py-12 space-y-8">
             <h1>MenuPage</h1>
-            {db.soups.map((soup) => (
+            {db.Menus.map((menu) => (
                 <div
                     className="bg-white rounded-2xl shadow hover:shadow-lg transition p-5"
-                    key={soup.id}
+                    key={menu.id}
                     onClick={() => {
-                        setSelectedSoup(soup);
+                        setSelectedSoup(menu);
                         setOpenPopup(true);
                     }}
                 >
@@ -185,7 +180,7 @@ export function MenuPage() {
                         🍜
                     </div>
 
-                    <h3 className="text-lg font-semibold">{soup.name}</h3>
+                    <h3 className="text-lg font-semibold">{menu.name}</h3>
                     <p className="text-gray-500">20 บาท</p>
 
                     <button className="mt-4 w-full py-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 active:scale-95 transition">
