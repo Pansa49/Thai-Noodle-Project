@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import db from "../../../db.json"
 import type { Soup } from "../../api/menuDetail";
 
@@ -13,15 +13,11 @@ export function MenuPage() {
     const [selectedVegetable, setSelectedVegetable] = useState<number | null>(null);
     const [quantity, setQuantity] = useState(1);
 
-    const [showWarning, setShowWarning] = useState(false);
-
 
     const isInvalid = selectedNoodle === null || selectedVegetable === null || selectedMeat.length === 0;
 
     const SelectMenuPopUp = () => {
         if (!openPopup || !selectedSoup) return null;
-
-
 
         return (
             <div
@@ -106,8 +102,6 @@ export function MenuPage() {
                         </div>
                     </div>
 
-                    {/* ข้อความแจ้งเตือน ว่าต้องเลือกให้ครบ */}
-                    {showWarning && <WarningPopUp />}
 
                     {/*ปุ่มเพิ่มจำนวน*/}
                     <div className="flex items-center justify-between mb-4">
@@ -140,6 +134,7 @@ export function MenuPage() {
                         disabled={isInvalid}
                         className={`w-full py-2 rounded-xl text-white    ${isInvalid ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 active:scale-95"}  `}
                         onClick={() => {
+
                             console.log({
                                 soup: selectedSoup.name,
                                 noodle: selectedNoodle,
@@ -149,20 +144,15 @@ export function MenuPage() {
                                 totalPrice: quantity * selectedSoup.price,
                             });
 
-
-                            // ckeck วัตถุดิบ
-                            if (isInvalid) {
-                                setShowWarning(true)
-                                return;
-                            }
-                            setShowWarning(false)
-
-
                             // ส่งข้อมูลไปหน้าลิส
 
 
                             // clear state
-
+                            setSelectedSoup(null);
+                            setSelectedNoodle(null);
+                            setSelectedMeat([]);
+                            setSelectedVegetable(null);
+                            setQuantity(1);
 
                             // ปิด popup
                             setOpenPopup(false);
@@ -176,20 +166,6 @@ export function MenuPage() {
         );
 
     };
-
-    const WarningPopUp = () => {
-        return (
-            < div className="font-bold" >
-                กรุณาเลือกเส้น เครื่องเคียง ผัก ให้ครบ
-            </div >
-        );
-    };
-
-    useEffect(() => {
-        if (!isInvalid) {
-            setShowWarning(false);
-        }
-    }, [isInvalid]);
 
 
     return (
