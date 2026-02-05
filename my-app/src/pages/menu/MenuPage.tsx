@@ -1,5 +1,5 @@
 import { useState } from "react"
-import db from "../../database/db.json"
+import menudb from "../../database/menudb.json"
 import type { Menu } from "../../api/menuDetail";
 
 
@@ -166,7 +166,7 @@ export function MenuPage() {
     return (
         <div className="container py-12 space-y-8">
             <h1>MenuPage</h1>
-            {db.Menus.map((menu) => (
+            {menudb.Menus.map((menu) => (
                 <div
                     className="bg-white rounded-2xl shadow hover:shadow-lg transition p-5"
                     key={menu.id}
