@@ -1,19 +1,22 @@
 import { useState } from "react"
 import menudb from "../../database/menudb.json"
 import type { Menu } from "../../api/menuDetail";
-
+import { useCartContext } from "../../hook/use-cart-context"
 
 export function MenuPage() {
 
     const [openPopup, setOpenPopup] = useState(false);
-    const [selectedSoup, setSelectedSoup] = useState<Menu | null>(null);
 
+    const [selectedSoup, setSelectedSoup] = useState<Menu | null>(null);
     const [selectedNoodle, setSelectedNoodle] = useState<number | null>(null);
     const [selectedMeat, setSelectedMeat] = useState<number[]>([]);
     const [selectedVegetable, setSelectedVegetable] = useState<number | null>(null);
     const [quantity, setQuantity] = useState(1);
 
     const isInvalid = selectedNoodle === null || selectedVegetable === null || selectedMeat.length === 0;
+
+    const { addItem } = useCartContext();
+
 
     const SelectMenuPopUp = () => {
         if (!openPopup || !selectedSoup) return null;
@@ -139,8 +142,23 @@ export function MenuPage() {
                                 totalPrice: quantity * selectedSoup.price,
                             });
 
-                            // ส่งข้อมูลไปหน้าลิส
+                            // ส่งข้อมูลไป bd.json
+                            if (
+                                selectedNoodle === null ||
+                                selectedVegetable === null
+                            ) {
+                                alert("กรุณาเลือกเส้นและผักก่อน");
+                                return;
+                            }
 
+                            addItem({
+                                soup: selectedSoup.name,
+                                noodle: selectedNoodle,
+                                meat: selectedMeat,
+                                vegetable: selectedVegetable,
+                                quantity,
+                                totalPrice: quantity * selectedSoup.price,
+                            });
 
                             // clear state
                             setSelectedSoup(null);
