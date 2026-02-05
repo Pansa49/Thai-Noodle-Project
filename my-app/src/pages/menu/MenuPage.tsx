@@ -26,7 +26,7 @@ export function MenuPage() {
                 className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
                 onClick={() => setOpenPopup(false)}
             >
-                <div
+                <div //pop up
                     className="bg-white rounded-2xl p-6 w-96 max-h-[90vh] overflow-y-auto"
                     onClick={(e) => e.stopPropagation()}
                 >
