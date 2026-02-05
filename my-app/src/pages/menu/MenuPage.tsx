@@ -1,5 +1,5 @@
 import { useState } from "react"
-import db from "../../../db.json"
+import db from "../../database/db.json"
 import type { Menu } from "../../api/menuDetail";
 
 
