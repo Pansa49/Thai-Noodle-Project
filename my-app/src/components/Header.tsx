@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 export function Header() {
     return (
         <header className="w-full border-b bg-white">
@@ -10,15 +12,38 @@ export function Header() {
 
                 {/* Menu */}
                 <nav className="hidden md:flex gap-12 text-gray-600 font-medium">
-                    <a href="#" className="hover:text-blue-600 transition">
+                    <NavLink
+                        to="/menu"
+                        className={({ isActive }) =>
+                            isActive
+                                ? "bg-blue-500 text-white rounded-md"
+                                : "hover:bg-blue-300 rounded-md transition"
+                        }
+                    >
                         Menu
-                    </a>
-                    <a href="#" className="hover:text-blue-600 transition">
+                    </NavLink>
+
+                    <NavLink
+                        to="/list"
+                        className={({ isActive }) =>
+                            isActive
+                                ? "bg-blue-500 text-white rounded-md"
+                                : "hover:bg-blue-300 rounded-md transition"
+                        }
+                    >
                         List
-                    </a>
-                    <a href="#" className="hover:text-blue-600 transition">
+                    </NavLink>
+
+                    <NavLink
+                        to="/bill"
+                        className={({ isActive }) =>
+                            isActive
+                                ? "bg-blue-500 text-white rounded-md"
+                                : "hover:bg-blue-300 rounded-md transition"
+                        }
+                    >
                         Bill
-                    </a>
+                    </NavLink>
                 </nav>
 
                 {/* Right action */}
