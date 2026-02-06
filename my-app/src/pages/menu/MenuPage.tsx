@@ -152,6 +152,7 @@ export function MenuPage() {
                             }
 
                             addItem({
+                                id: selectedSoup.id.toString(),
                                 soup: selectedSoup.name,
                                 noodle: selectedNoodle,
                                 meat: selectedMeat,
