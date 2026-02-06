@@ -2,6 +2,7 @@ import { createContext, useState, useCallback } from "react";
 import axios from "axios";
 
 export type CartItem = {
+    id: string;
     soup: string;
     noodle: number;
     meat: number[];
@@ -14,7 +15,7 @@ type CartContextType = {
     id?: number;
     items: CartItem[];
     addItem: (item: CartItem) => void;
-    removeItem: (index: number) => void;
+    removeItem: (index: string) => void;
     clearCart: () => void;
     fetchCart: () => Promise<void>;
 };
@@ -44,8 +45,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             console.error("Add item failed:", error);
         }
     };
-    const removeItem = (index: number) => {
-        setItems((prev) => prev.filter((_, i) => i !== index));
+    const removeItem = async (id: string) => {
+        await axios.delete(`http://localhost:3001/orders/${id}`)
+        const updateOrder = items.filter((order) => {
+            return order.id !== id;
+        })
+        setItems(updateOrder);
     };
 
     const clearCart = () => {
