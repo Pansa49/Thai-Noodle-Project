@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
 import Root from "./pages/Root"
 import { MenuPage } from "./pages/menu/MenuPage.tsx"
 import { ListPage } from "./pages/list/ListPage.tsx"
@@ -12,16 +12,20 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <Navigate to="/menu" replace />,
+      },
+      {
+        path: "menu",
         element: <MenuPage />,
         //loader: menuLoader,
       },
       {
-        path: "/list",
+        path: "list",
         element: <ListPage />,
         //loader: listLoader,
       },
       {
-        path: "/bill",
+        path: "bill",
         element: <BillPage />,
         //loader: billPage,
       },
