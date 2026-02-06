@@ -1,7 +1,7 @@
-import { useState } from "react"
-import menudb from "../../database/menudb.json"
+import { useState } from "react";
+import menudb from "../../database/menudb.json";
 import type { Menu } from "../../api/menuDetail";
-import { useCartContext } from "../../hook/use-cart-context"
+import { useCartContext } from "../../hook/use-cart-context";
 
 export function MenuPage() {
 
