@@ -3,6 +3,8 @@ import Root from "./pages/Root"
 import { MenuPage } from "./pages/menu/MenuPage.tsx"
 import { ListPage } from "./pages/list/ListPage.tsx"
 import { BillPage } from "./pages/bill/BillPage.tsx"
+import { useEffect } from "react"
+import { useCartContext } from "./hook/use-cart-context.tsx"
 
 
 const router = createBrowserRouter([
@@ -34,6 +36,12 @@ const router = createBrowserRouter([
 ])
 
 function App() {
+  const { getItem } = useCartContext();
+
+  useEffect(() => {
+    getItem();
+  }, [getItem])
+
   return (
     <div className="inset-0 bg-black/10">
       <RouterProvider router={router} />

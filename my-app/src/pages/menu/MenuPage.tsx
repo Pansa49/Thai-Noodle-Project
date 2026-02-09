@@ -133,14 +133,14 @@ export function MenuPage() {
                         className={`w-full py-2 rounded-xl text-white    ${isInvalid ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 active:scale-95"}  `}
                         onClick={() => {
 
-                            console.log({
-                                soup: selectedSoup.name,
-                                noodle: selectedNoodle,
-                                meat: selectedMeat,
-                                vegetable: selectedVegetable,
-                                quantity,
-                                totalPrice: quantity * selectedSoup.price,
-                            });
+                            // console.log({
+                            //     soup: selectedSoup.name,
+                            //     noodle: selectedNoodle,
+                            //     meat: selectedMeat,
+                            //     vegetable: selectedVegetable,
+                            //     quantity,
+                            //     totalPrice: quantity * selectedSoup.price,
+                            // });
 
                             // ส่งข้อมูลไป bd.json
                             if (
