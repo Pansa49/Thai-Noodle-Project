@@ -17,7 +17,7 @@ type CartContextType = {
     addItem: (item: CartItem) => void;
     removeItem: (index: string) => void;
     clearCart: () => void;
-    fetchCart: () => Promise<void>;
+    getItem: () => Promise<void>;
 };
 
 
@@ -28,7 +28,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const [items, setItems] = useState<CartItem[]>([]);
 
-    const fetchCart = useCallback(async () => {
+    const getItem = useCallback(async () => {
         const res = await axios.get("http://localhost:3001/orders")
         setItems(res.data);
     }, []);
@@ -60,7 +60,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     return (
         <CartContext.Provider
-            value={{ items, fetchCart, addItem, removeItem, clearCart }}
+            value={{ items, getItem, addItem, removeItem, clearCart }}
         >
             {children}
         </CartContext.Provider>
