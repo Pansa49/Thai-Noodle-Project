@@ -10,7 +10,7 @@ export interface Menu {
     countNum: number;
 }
 
-export interface OptionItem {
+interface OptionItem {
     id: number;
     name: string;
 }

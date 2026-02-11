@@ -1,6 +1,6 @@
 import { useState } from "react";
 import menudb from "../../database/menudb.json";
-import type { Menu } from "../../api/menuDetail";
+import { type Menu, noodleMap, meatMap, vegetableMap } from "../../api/menuDetail";
 import { useCartContext } from "../../hook/use-cart-context";
 
 export function MenuPage() {
@@ -40,16 +40,17 @@ export function MenuPage() {
                         <div className="space-y-2">
                             {selectedSoup.noodleIds.map((n) => (
                                 <label
-                                    key={n.id}
+                                    key={n}
                                     className="flex items-center gap-2 cursor-pointer"
                                 >
                                     <input
                                         type="radio"
                                         name="noodle"
-                                        checked={selectedNoodle === n.id}
-                                        onChange={() => setSelectedNoodle(n.id)}
+                                        checked={selectedNoodle === n}
+                                        onChange={() => setSelectedNoodle(n)}
                                     />
-                                    <span>{n.name}</span>
+
+                                    <span>{noodleMap.get(n)?.name}</span>
                                 </label>
                             ))}
                         </div>
@@ -61,21 +62,22 @@ export function MenuPage() {
                         <div className="space-y-2">
                             {selectedSoup.meatIds.map((m) => (
                                 <label
-                                    key={m.id}
+                                    key={m}
                                     className="flex items-center gap-2 cursor-pointer"
                                 >
                                     <input
                                         type="checkbox"
-                                        checked={selectedMeat.includes(m.id)}
+                                        checked={selectedMeat.includes(m)}
                                         onChange={() =>
                                             setSelectedMeat((prev) =>
-                                                prev.includes(m.id)
-                                                    ? prev.filter((id) => id !== m.id)
-                                                    : [...prev, m.id]
+                                                prev.includes(m)
+                                                    ? prev.filter((id) => id !== m)
+                                                    : [...prev, m]
                                             )
                                         }
                                     />
-                                    <span>{m.name}</span>
+                                    {<span>{meatMap.get(m)?.name}</span>}
+
                                 </label>
                             ))}
                         </div>
@@ -87,16 +89,16 @@ export function MenuPage() {
                         <div className="space-y-2">
                             {selectedSoup.vegetableIds.map((v) => (
                                 <label
-                                    key={v.id}
+                                    key={v}
                                     className="flex items-center gap-2 cursor-pointer"
                                 >
                                     <input
                                         type="radio"
                                         name="vegetable"
-                                        checked={selectedVegetable === v.id}
-                                        onChange={() => setSelectedVegetable(v.id)}
+                                        checked={selectedVegetable === v}
+                                        onChange={() => setSelectedVegetable(v)}
                                     />
-                                    <span>{v.name}</span>
+                                    {<span>{vegetableMap.get(v)?.name}</span>}
                                 </label>
                             ))}
                         </div>
@@ -133,14 +135,12 @@ export function MenuPage() {
                         className={`w-full py-2 rounded-xl text-white    ${isInvalid ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 active:scale-95"}  `}
                         onClick={() => {
 
-                            // console.log({
-                            //     soup: selectedSoup.name,
-                            //     noodle: selectedNoodle,
-                            //     meat: selectedMeat,
-                            //     vegetable: selectedVegetable,
-                            //     quantity,
-                            //     totalPrice: quantity * selectedSoup.price,
-                            // });
+                            console.log({
+                                // soup: selectedSoup.name,
+                                // noodle: selectedNoodle,
+                                // meat: selectedMeat,
+                                // vegetable: selectedVegetable,
+                            });
 
                             // ส่งข้อมูลไป bd.json
                             if (
