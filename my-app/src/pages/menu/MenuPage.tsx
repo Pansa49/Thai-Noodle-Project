@@ -18,6 +18,20 @@ export function MenuPage() {
     const { addItem } = useCartContext();
 
 
+
+    const genIdByLocalDate = () => {
+        const d = new Date();
+
+        return (
+            d.getFullYear() +
+            String(d.getMonth() + 1).padStart(2, "0") +
+            String(d.getDate()).padStart(2, "0") +
+            String(d.getHours()).padStart(2, "0") +
+            String(d.getMinutes()).padStart(2, "0") +
+            String(d.getMilliseconds()).padStart(2, "0")
+        );
+    }
+
     const SelectMenuPopUp = () => {
         if (!openPopup || !selectedSoup) return null;
 
@@ -135,12 +149,9 @@ export function MenuPage() {
                         className={`w-full py-2 rounded-xl text-white    ${isInvalid ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 active:scale-95"}  `}
                         onClick={() => {
 
-                            console.log({
-                                // soup: selectedSoup.name,
-                                // noodle: selectedNoodle,
-                                // meat: selectedMeat,
-                                // vegetable: selectedVegetable,
-                            });
+                            // console.log({
+                            //     date: genIdByLocalDate()
+                            // });
 
                             // ส่งข้อมูลไป bd.json
                             if (
@@ -152,7 +163,7 @@ export function MenuPage() {
                             }
 
                             addItem({
-                                id: selectedSoup.id.toString(),
+                                id: genIdByLocalDate(),
                                 soup: selectedSoup.name,
                                 noodle: selectedNoodle,
                                 meat: selectedMeat,
