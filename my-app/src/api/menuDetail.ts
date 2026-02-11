@@ -1,21 +1,32 @@
+import data from "../database/menudb.json"
+
 export interface Menu {
     id: number;
     name: string;
-
-    noodleIds: number[];     // ตัวเลือกเส้น
-    meatIds: number[];       // ตัวเลือกเนื้อ
-    vegetableIds: number[];  // ตัวเลือกผัก
-
+    noodleIds: number[];
+    meatIds: number[];
+    vegetableIds: number[];
     price: number;
     countNum: number;
+}
+
+export interface OptionItem {
+    id: number;
+    name: string;
 }
 
 export type Noodle = OptionItem;
 export type Meat = OptionItem;
 export type Vegetable = OptionItem;
 
+export const noodleMap = new Map<number, Noodle>(
+    data.Noodles.map(n => [n.id, n])
+)
 
-interface OptionItem {
-    id: number;
-    name: string;
-}
+export const meatMap = new Map<number, Meat>(
+    data.Meats.map(m => [m.id, m])
+)
+
+export const vegetableMap = new Map<number, Vegetable>(
+    data.Vegetable.map(v => [v.id, v])
+)
