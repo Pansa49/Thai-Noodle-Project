@@ -1,197 +1,13 @@
 import { useState } from "react";
 import menudb from "../../database/menudb.json";
-import { type Menu, noodleMap, meatMap, vegetableMap } from "../../api/menuDetail";
-import { useCartContext } from "../../hook/use-cart-context";
+import type { Menu } from "../../api/menuDetail";
+import { PopUp } from "../../components/PopUP";
 
 export function MenuPage() {
 
     const [openPopup, setOpenPopup] = useState(false);
 
     const [selectedSoup, setSelectedSoup] = useState<Menu | null>(null);
-    const [selectedNoodle, setSelectedNoodle] = useState<number | null>(null);
-    const [selectedMeat, setSelectedMeat] = useState<number[]>([]);
-    const [selectedVegetable, setSelectedVegetable] = useState<number | null>(null);
-    const [quantity, setQuantity] = useState(1);
-
-    const isInvalid = selectedNoodle === null || selectedVegetable === null || selectedMeat.length === 0;
-
-    const { addItem } = useCartContext();
-
-
-
-    const genIdByLocalDate = () => {
-        const d = new Date();
-
-        return (
-            d.getFullYear() +
-            String(d.getMonth() + 1).padStart(2, "0") +
-            String(d.getDate()).padStart(2, "0") +
-            String(d.getHours()).padStart(2, "0") +
-            String(d.getMinutes()).padStart(2, "0") +
-            String(d.getMilliseconds()).padStart(2, "0")
-        );
-    }
-
-    const SelectMenuPopUp = () => {
-        if (!openPopup || !selectedSoup) return null;
-
-        return (
-            <div
-                className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-                onClick={() => setOpenPopup(false)}
-            >
-                <div //pop up
-                    className="bg-white rounded-2xl p-6 w-96 max-h-[90vh] overflow-y-auto"
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <h2 className="text-xl font-bold mb-1">{selectedSoup.name}</h2>
-
-                    <p className="text-gray-500 mb-4">ราคา 20 บาท</p>
-
-                    {/* เลือกเส้น */}
-                    <div className="mb-4">
-                        <h3 className="font-semibold mb-2">เลือกเส้น</h3>
-                        <div className="space-y-2">
-                            {selectedSoup.noodleIds.map((n) => (
-                                <label
-                                    key={n}
-                                    className="flex items-center gap-2 cursor-pointer"
-                                >
-                                    <input
-                                        type="radio"
-                                        name="noodle"
-                                        checked={selectedNoodle === n}
-                                        onChange={() => setSelectedNoodle(n)}
-                                    />
-
-                                    <span>{noodleMap.get(n)?.name}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* เลือกเครื่อง (เลือกได้หลายอย่าง) */}
-                    <div className="mb-4">
-                        <h3 className="font-semibold mb-2">เลือกเครื่อง (มากกว่า 1 อย่าง)</h3>
-                        <div className="space-y-2">
-                            {selectedSoup.meatIds.map((m) => (
-                                <label
-                                    key={m}
-                                    className="flex items-center gap-2 cursor-pointer"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedMeat.includes(m)}
-                                        onChange={() =>
-                                            setSelectedMeat((prev) =>
-                                                prev.includes(m)
-                                                    ? prev.filter((id) => id !== m)
-                                                    : [...prev, m]
-                                            )
-                                        }
-                                    />
-                                    {<span>{meatMap.get(m)?.name}</span>}
-
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* เลือกผัก */}
-                    <div className="mb-6">
-                        <h3 className="font-semibold mb-2">ผัก</h3>
-                        <div className="space-y-2">
-                            {selectedSoup.vegetableIds.map((v) => (
-                                <label
-                                    key={v}
-                                    className="flex items-center gap-2 cursor-pointer"
-                                >
-                                    <input
-                                        type="radio"
-                                        name="vegetable"
-                                        checked={selectedVegetable === v}
-                                        onChange={() => setSelectedVegetable(v)}
-                                    />
-                                    {<span>{vegetableMap.get(v)?.name}</span>}
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/*ปุ่มเพิ่มจำนวน*/}
-                    <div className="flex items-center justify-between mb-4">
-                        <span className="font-semibold">จำนวนจาน</span>
-
-                        <div className="flex items-center gap-3">
-                            <button
-                                className="w-8 h-8 rounded-full bg-gray-200 text-lg"
-                                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                            >
-                                −
-                            </button>
-
-                            <span className="w-6 text-center">{quantity}</span>
-
-                            <button
-                                className="w-8 h-8 rounded-full bg-blue-500 text-white text-lg"
-                                onClick={() => setQuantity((q) => q + 1)}
-                            >
-                                +
-                            </button>
-                        </div>
-                    </div>
-
-                    {/*ปุ่มเพิ่มรายการอาหาร*/}
-                    <button
-                        //className="w-full py-2 rounded-xl bg-blue-500 text-white"
-
-                        disabled={isInvalid}
-                        className={`w-full py-2 rounded-xl text-white    ${isInvalid ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 active:scale-95"}  `}
-                        onClick={() => {
-
-                            // console.log({
-                            //     date: genIdByLocalDate()
-                            // });
-
-                            // ส่งข้อมูลไป bd.json
-                            if (
-                                selectedNoodle === null ||
-                                selectedVegetable === null
-                            ) {
-                                alert("กรุณาเลือกเส้นและผักก่อน");
-                                return;
-                            }
-
-                            addItem({
-                                id: genIdByLocalDate(),
-                                soup: selectedSoup.name,
-                                noodle: selectedNoodle,
-                                meat: selectedMeat,
-                                vegetable: selectedVegetable,
-                                quantity,
-                                totalPrice: quantity * selectedSoup.price,
-                            });
-
-                            // clear state
-                            setSelectedSoup(null);
-                            setSelectedNoodle(null);
-                            setSelectedMeat([]);
-                            setSelectedVegetable(null);
-                            setQuantity(1);
-
-                            // ปิด popup
-                            setOpenPopup(false);
-                        }}
-                    >
-                        ยืนยัน ({quantity * selectedSoup.price} บาท)
-                    </button>
-
-                </div>
-            </div>
-        );
-
-    };
-
 
     return (
         <div className="container py-12 space-y-8">
@@ -213,12 +29,26 @@ export function MenuPage() {
                     <h3 className="text-lg font-semibold">{menu.name}</h3>
                     <p className="text-gray-500">20 บาท</p>
 
-                    <button className="mt-4 w-full py-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 active:scale-95 transition">
-                        เพิ่ม
+                    <button
+                        className="mt-4 w-full py-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 active:scale-95 transition"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedSoup(menu);
+                            setOpenPopup(true);
+                        }}>
+                        สั่ง
                     </button>
                 </div>
             ))}
-            <SelectMenuPopUp />
+
+            <PopUp
+                isOpen={openPopup}
+                menu={selectedSoup}
+                onClose={() => {
+                    setOpenPopup(false);
+                    setSelectedSoup(null);
+                }}
+            />
         </div>
     )
 }
