@@ -40,7 +40,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const addItemDb = async (orders: CartItem[]) => {
         for (const order of orders) {
             try {
-                const res = await axios.post(
+                await axios.post(
                     "http://localhost:3001/orders",
                     order
                 );
