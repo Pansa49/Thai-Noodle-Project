@@ -18,15 +18,19 @@ type CartContextType = {
     removeItem: (index: string) => void;
     clearCart: () => void;
     getItem: () => Promise<void>;
+    saveItem: (item: CartItem) => void;
 };
-
 
 export const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
 
-
     const [items, setItems] = useState<CartItem[]>([]);
+
+    const saveItem = (item: CartItem) => {
+        setItems((prev) => [...prev, item]);
+        console.log(items);
+    }
 
     const getItem = useCallback(async () => {
         const res = await axios.get("http://localhost:3001/orders")
@@ -45,6 +49,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             console.error("Add item failed:", error);
         }
     };
+
     const removeItem = async (id: string) => {
         await axios.delete(`http://localhost:3001/orders/${id}`)
         const updateOrder = items.filter((order) => {
@@ -53,14 +58,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setItems(updateOrder);
     };
 
+    // updateItem
+    // const updateItem = async (item: CartItem){
+
+    // }
+
     const clearCart = () => {
         setItems([]);
     };
 
-
     return (
         <CartContext.Provider
-            value={{ items, getItem, addItem, removeItem, clearCart }}
+            value={{ items, saveItem, getItem, addItem, removeItem, clearCart }}
         >
             {children}
         </CartContext.Provider>

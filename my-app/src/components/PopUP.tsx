@@ -23,7 +23,7 @@ export function PopUp({ menu, isOpen, onClose }: Props) {
         }
     }, [isOpen]);
 
-    const { addItem } = useCartContext();
+    const { addItem, saveItem } = useCartContext();
 
     const isInvalid = selectedNoodle === null || selectedVegetable === null || selectedMeat.length === 0;
 
@@ -161,7 +161,17 @@ export function PopUp({ menu, isOpen, onClose }: Props) {
                             return;
                         }
 
-                        addItem({
+                        // addItem({
+                        //     id: genIdByLocalDate(),
+                        //     soup: menu.name,
+                        //     noodle: selectedNoodle,
+                        //     meat: selectedMeat,
+                        //     vegetable: selectedVegetable,
+                        //     quantity,
+                        //     totalPrice: quantity * menu.price,
+                        // });
+                        // clearCart()
+                        saveItem({
                             id: genIdByLocalDate(),
                             soup: menu.name,
                             noodle: selectedNoodle,
@@ -170,7 +180,6 @@ export function PopUp({ menu, isOpen, onClose }: Props) {
                             quantity,
                             totalPrice: quantity * menu.price,
                         });
-
                         onClose();
                     }}
                 >
