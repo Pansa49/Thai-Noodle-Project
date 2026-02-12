@@ -3,8 +3,6 @@ import { useCartContext } from "../hook/use-cart-context";
 export function ListOrder() {
     const { items } = useCartContext();
 
-
-
     if (items.length === 0) {
         return (
             <p className="text-gray-500 text-center py-12">
@@ -28,9 +26,7 @@ export function ListOrder() {
                     </p>
                     <p className="text-gray-600">{item.totalPrice} บาท</p>
                 </div>
-            ))
-            }
+            ))}
         </div>
     );
-
 }
