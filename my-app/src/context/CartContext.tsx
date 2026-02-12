@@ -14,9 +14,9 @@ export type CartItem = {
 type CartContextType = {
     id?: number;
     items: CartItem[];
-    addItem: (item: CartItem) => void;
+    addItemDb: (item: CartItem[]) => void;
     removeItem: (index: string) => void;
-    clearCart: () => void;
+    clearItems: () => void;
     getItem: () => Promise<void>;
     saveItem: (item: CartItem) => void;
 };
@@ -37,16 +37,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setItems(res.data);
     }, []);
 
-    const addItem = async (item: CartItem) => {
-        try {
-            const res = await axios.post(
-                "http://localhost:3001/orders",
-                item
-            );
-
-            setItems((prev) => [...prev, res.data]);
-        } catch (error) {
-            console.error("Add item failed:", error);
+    const addItemDb = async (orders: CartItem[]) => {
+        for (const order of orders) {
+            try {
+                const res = await axios.post(
+                    "http://localhost:3001/orders",
+                    order
+                );
+            } catch (error) {
+                console.error("Add item failed:", error);
+            }
         }
     };
 
@@ -63,13 +63,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     // }
 
-    const clearCart = () => {
+    const clearItems = () => {
         setItems([]);
     };
 
     return (
         <CartContext.Provider
-            value={{ items, saveItem, getItem, addItem, removeItem, clearCart }}
+            value={{ items, saveItem, getItem, addItemDb, removeItem, clearItems }}
         >
             {children}
         </CartContext.Provider>
