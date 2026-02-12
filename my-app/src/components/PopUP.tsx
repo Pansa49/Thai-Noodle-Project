@@ -23,7 +23,7 @@ export function PopUp({ menu, isOpen, onClose }: Props) {
         }
     }, [isOpen]);
 
-    const { addItem, saveItem } = useCartContext();
+    const { saveItem } = useCartContext();
 
     const isInvalid = selectedNoodle === null || selectedVegetable === null || selectedMeat.length === 0;
 
