@@ -14,13 +14,17 @@ export type CartItem = {
 type CartContextType = {
     id?: number;
     items: CartItem[];
-    addItemDb: (item: CartItem[]) => void;
-    clearItems: () => void;
-    getItem: () => Promise<void>;
-    deleteItem: (index: string) => void;
 
+    // about json
+    addItemDb: (item: CartItem[]) => void;
+    getItemDb: () => Promise<void>;
+    deleteItemDb: (index: string) => void;
+
+    // about state Item
     saveItem: (item: CartItem) => void;
+    updateItem: (item: CartItem) => void;
     removeItem: (index: string) => void;
+    clearItems: () => void;
 };
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -35,14 +39,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const saveItem = (item: CartItem) => {
         setItems((prev) => [...prev, item]);
+        console.log({
+            save: item
+        })
     }
 
     const removeItem = (id: string) => {
         setItems(prev => prev.filter(item => item.id !== id));
-        console.log(id)
+        console.log({
+            remove: id
+        })
     };
 
-    const getItem = useCallback(async () => {
+    const updateItem = (updatedItem: CartItem) => {
+        setItems(prev =>
+            prev.map(item =>
+                item.id === updatedItem.id ? updatedItem : item
+            )
+        );
+    };
+
+    const getItemDb = useCallback(async () => {
         const res = await axios.get("http://localhost:3001/orders")
         setItems(res.data);
     }, []);
@@ -60,7 +77,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    const deleteItem = async (id: string) => {
+    const deleteItemDb = async (id: string) => {
         await axios.delete(`http://localhost:3001/orders/${id}`)
         const updateOrder = items.filter((order) => {
             return order.id !== id;
@@ -68,18 +85,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setItems(updateOrder);
     };
 
-    // updateItem
-    // const updateItem = async (item: CartItem){
-
-    // }
-
     const clearItems = () => {
         setItems([]);
     };
 
     return (
         <CartContext.Provider
-            value={{ items, saveItem, getItem, addItemDb, removeItem, deleteItem, clearItems }}
+            value={{ items, saveItem, updateItem, getItemDb, addItemDb, removeItem, deleteItemDb, clearItems }}
         >
             {children}
         </CartContext.Provider>

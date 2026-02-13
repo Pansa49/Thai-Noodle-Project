@@ -38,6 +38,7 @@ export function MenuPage() {
             ))}
 
             <PopUp
+                id={null}
                 isOpen={openPopup}
                 menu={selectedSoup}
                 onClose={() => {

@@ -3,12 +3,13 @@ import { type Menu, noodleMap, meatMap, vegetableMap } from "../api/menuDetail";
 import { useCartContext } from "../hook/use-cart-context";
 
 type Props = {
+    id: string | null;
     isOpen: boolean;
     menu: Menu | null;
     onClose: () => void;
 };
 
-export function PopUp({ menu, isOpen, onClose }: Props) {
+export function PopUp({ menu, isOpen, onClose, id }: Props) {
     const [selectedNoodle, setSelectedNoodle] = useState<number | null>(null);
     const [selectedMeat, setSelectedMeat] = useState<number[]>([]);
     const [selectedVegetable, setSelectedVegetable] = useState<number | null>(null);
@@ -23,7 +24,7 @@ export function PopUp({ menu, isOpen, onClose }: Props) {
         }
     }, [isOpen]);
 
-    const { saveItem } = useCartContext();
+    const { saveItem, updateItem } = useCartContext();
 
     const isInvalid = selectedNoodle === null || selectedVegetable === null || selectedMeat.length === 0;
 
@@ -161,25 +162,29 @@ export function PopUp({ menu, isOpen, onClose }: Props) {
                             return;
                         }
 
-                        // addItem({
-                        //     id: genIdByLocalDate(),
-                        //     soup: menu.name,
-                        //     noodle: selectedNoodle,
-                        //     meat: selectedMeat,
-                        //     vegetable: selectedVegetable,
-                        //     quantity,
-                        //     totalPrice: quantity * menu.price,
-                        // });
-                        // clearCart()
-                        saveItem({
-                            id: genIdByLocalDate(),
-                            soup: menu.name,
-                            noodle: selectedNoodle,
-                            meat: selectedMeat,
-                            vegetable: selectedVegetable,
-                            quantity,
-                            totalPrice: quantity * menu.price,
-                        });
+                        if (id) {
+                            updateItem({
+                                id: id,
+                                soup: menu.name,
+                                noodle: selectedNoodle,
+                                meat: selectedMeat,
+                                vegetable: selectedVegetable,
+                                quantity,
+                                totalPrice: quantity * menu.price,
+                            })
+                        }
+                        else {
+                            saveItem({
+                                id: genIdByLocalDate(),
+                                soup: menu.name,
+                                noodle: selectedNoodle,
+                                meat: selectedMeat,
+                                vegetable: selectedVegetable,
+                                quantity,
+                                totalPrice: quantity * menu.price,
+                            });
+                        }
+
                         onClose();
                     }}
                 >

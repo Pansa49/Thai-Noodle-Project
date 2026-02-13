@@ -1,7 +1,15 @@
+import { useState } from "react";
 import { useCartContext } from "../hook/use-cart-context";
+import { PopUp } from "./PopUP";
+import menudb from "../database/menudb.json";
+import type { Menu } from "../api/menuDetail";
 
 export function ListOrder() {
-    const { items } = useCartContext();
+    const { items, removeItem } = useCartContext();
+
+    const [openPopup, setOpenPopup] = useState(false);
+    const [selectedSoup, setSelectedSoup] = useState<Menu | null>(null);
+    const [popupId, setPopupId] = useState<string>("");
 
     if (items.length === 0) {
         return (
@@ -10,7 +18,6 @@ export function ListOrder() {
             </p>
         );
     }
-
     return (
         <div className="container py-12 space-y-4">
             {items.map((item, index) => (
@@ -29,14 +36,44 @@ export function ListOrder() {
 
                         <p className="text-gray-600">{item.totalPrice} บาท</p>
                     </div>
-                    <button
-                        className="opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition duration-200 px-4 py-2 rounded-lg bg-red-300 text-white hover:bg-red-600"
-                        onClick={() => console.log("edit")}
-                    >
-                        Edit
-                    </button>
+                    <div className="flex gap-4">
+                        <button
+                            className="opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition duration-200 px-4 py-2 rounded-lg bg-red-300 text-white hover:bg-red-600"
+                            onClick={() => {
+                                setOpenPopup(true);
+                                const menu = menudb.Menus.find(
+                                    (m) => m.name === item.soup
+                                );
+                                setSelectedSoup(menu ?? null);;
+                                setPopupId(item.id)
+                            }}
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            className="opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition duration-200 px-4 py-2 rounded-lg bg-red-300 text-white hover:bg-red-600"
+                            onClick={() => {
+                                removeItem(item.id)
+                            }}
+                        >
+                            remove
+                        </button>
+                    </div>
+
                 </div>
-            ))}
-        </div>
+            ))
+            }
+
+            <PopUp
+                id={popupId}
+                isOpen={openPopup}
+                menu={selectedSoup}
+                onClose={() => {
+                    setOpenPopup(false);
+                    setSelectedSoup(null);
+                }}
+            />
+        </div >
     );
 }
