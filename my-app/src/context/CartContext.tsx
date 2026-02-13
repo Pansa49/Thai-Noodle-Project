@@ -1,4 +1,4 @@
-import { createContext, useState, useCallback } from "react";
+import { createContext, useState, useCallback, useEffect } from "react";
 import axios from "axios";
 
 export type CartItem = {
@@ -15,10 +15,12 @@ type CartContextType = {
     id?: number;
     items: CartItem[];
     addItemDb: (item: CartItem[]) => void;
-    removeItem: (index: string) => void;
     clearItems: () => void;
     getItem: () => Promise<void>;
+    deleteItem: (index: string) => void;
+
     saveItem: (item: CartItem) => void;
+    removeItem: (index: string) => void;
 };
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -27,10 +29,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const [items, setItems] = useState<CartItem[]>([]);
 
+    useEffect(() => {
+        console.log(items)
+    }, [items])
+
     const saveItem = (item: CartItem) => {
         setItems((prev) => [...prev, item]);
-        console.log(items);
     }
+
+    const removeItem = (id: string) => {
+        setItems(prev => prev.filter(item => item.id !== id));
+        console.log(id)
+    };
 
     const getItem = useCallback(async () => {
         const res = await axios.get("http://localhost:3001/orders")
@@ -50,7 +60,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    const removeItem = async (id: string) => {
+    const deleteItem = async (id: string) => {
         await axios.delete(`http://localhost:3001/orders/${id}`)
         const updateOrder = items.filter((order) => {
             return order.id !== id;
@@ -69,7 +79,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     return (
         <CartContext.Provider
-            value={{ items, saveItem, getItem, addItemDb, removeItem, clearItems }}
+            value={{ items, saveItem, getItem, addItemDb, removeItem, deleteItem, clearItems }}
         >
             {children}
         </CartContext.Provider>

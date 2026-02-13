@@ -16,10 +16,6 @@ export function MenuPage() {
                 <div
                     className="bg-white rounded-2xl shadow hover:shadow-lg transition p-5"
                     key={menu.id}
-                    onClick={() => {
-                        setSelectedSoup(menu);
-                        setOpenPopup(true);
-                    }}
                 >
 
                     <div className="h-32 bg-gray-100 rounded-xl flex items-center justify-center text-4xl mb-4">
