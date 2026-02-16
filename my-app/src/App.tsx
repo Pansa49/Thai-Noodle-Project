@@ -1,7 +1,9 @@
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
 import Root from "./pages/Root"
 import { MenuPage } from "./pages/menu/MenuPage.tsx"
+import { menuLoader } from "./pages/menu/menuLoader.ts"
 import { ListPage } from "./pages/list/ListPage.tsx"
+import { listLoader } from "./pages/list/listLoader.ts"
 import { BillPage } from "./pages/bill/BillPage.tsx"
 import { useEffect } from "react"
 import { useCartContext } from "./hook/use-cart-context.tsx"
@@ -19,12 +21,12 @@ const router = createBrowserRouter([
       {
         path: "menu",
         element: <MenuPage />,
-        //loader: menuLoader,
+        loader: menuLoader,
       },
       {
         path: "list",
         element: <ListPage />,
-        //loader: listLoader,
+        loader: listLoader,
       },
       {
         path: "bill",
