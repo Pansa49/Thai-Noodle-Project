@@ -1,4 +1,3 @@
-import billData from "../../database/db.json";
 import { useLoaderData } from "react-router-dom";
 import type { CartItem } from "../../api/menuDetail";
 

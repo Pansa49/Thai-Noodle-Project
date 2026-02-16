@@ -1,6 +1,9 @@
 import { NavLink } from "react-router-dom";
+import { useCartContext } from "../hook/use-cart-context";
 
 export function Header() {
+
+    const { clearItems } = useCartContext()
     return (
         <header className="w-full border-b bg-white">
             <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -58,7 +61,13 @@ export function Header() {
 
                     {/* Profile */}
                     <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
-                        👤
+                        <button
+                            onClick={() => {
+                                clearItems()
+                            }}
+                        >
+                            👤
+                        </button>
                     </div>
                 </div>
             </div>

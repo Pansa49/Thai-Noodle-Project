@@ -40,11 +40,7 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-  const { getItemDb } = useCartContext();
 
-  useEffect(() => {
-    getItemDb();
-  }, [getItemDb])
 
   return (
     <div className="inset-0 bg-black/10">
