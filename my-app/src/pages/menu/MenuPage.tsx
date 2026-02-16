@@ -1,18 +1,18 @@
 import { useState } from "react";
-import menudb from "../../database/menudb.json";
+import { useLoaderData } from "react-router-dom";
 import type { Menu } from "../../api/menuDetail";
 import { PopUp } from "../../components/PopUP";
 
 export function MenuPage() {
+    const menus = useLoaderData() as Menu[];
 
     const [openPopup, setOpenPopup] = useState(false);
-
     const [selectedSoup, setSelectedSoup] = useState<Menu | null>(null);
 
     return (
         <div className="container py-12 space-y-8">
             <h1>MenuPage</h1>
-            {menudb.Menus.map((menu) => (
+            {menus.map((menu) => (
                 <div
                     className="bg-white rounded-2xl shadow hover:shadow-lg transition p-5"
                     key={menu.id}

@@ -34,7 +34,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const [items, setItems] = useState<CartItem[]>([]);
 
     useEffect(() => {
-        console.log(items)
+        console.log({ items: items })
     }, [items])
 
     const saveItem = (item: CartItem) => {
