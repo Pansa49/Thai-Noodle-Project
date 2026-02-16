@@ -17,7 +17,7 @@ export type CartItem = {
     meat: number[];
     vegetable: number;
     quantity: number;
-    totalPrice: number;
+    price: number;
 };
 
 interface OptionItem {

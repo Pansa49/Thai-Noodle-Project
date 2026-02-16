@@ -2,16 +2,6 @@ import { createContext, useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import type { CartItem } from "../api/menuDetail";
 
-// export type CartItem = {
-//     id: string;
-//     soup: string;
-//     noodle: number;
-//     meat: number[];
-//     vegetable: number;
-//     quantity: number;
-//     totalPrice: number;
-// };
-
 type CartContextType = {
     id?: number;
     items: CartItem[];
@@ -89,8 +79,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         })
         setItems(updateOrder);
     };
-
-
 
     return (
         <CartContext.Provider

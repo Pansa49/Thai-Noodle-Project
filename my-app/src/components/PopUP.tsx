@@ -170,7 +170,7 @@ export function PopUp({ menu, isOpen, onClose, id }: Props) {
                                 meat: selectedMeat,
                                 vegetable: selectedVegetable,
                                 quantity,
-                                totalPrice: quantity * menu.price,
+                                price: menu.price,
                             })
                         }
                         else {
@@ -181,7 +181,7 @@ export function PopUp({ menu, isOpen, onClose, id }: Props) {
                                 meat: selectedMeat,
                                 vegetable: selectedVegetable,
                                 quantity,
-                                totalPrice: quantity * menu.price,
+                                price: menu.price,
                             });
                         }
 

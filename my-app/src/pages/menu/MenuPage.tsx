@@ -23,7 +23,7 @@ export function MenuPage() {
                     </div>
 
                     <h3 className="text-lg font-semibold">{menu.name}</h3>
-                    <p className="text-gray-500">20 บาท</p>
+                    <p className="text-gray-500">{menu.price} บาท</p>
 
                     <button
                         className="mt-4 w-full py-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 active:scale-95 transition"
