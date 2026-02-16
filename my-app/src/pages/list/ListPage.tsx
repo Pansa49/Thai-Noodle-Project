@@ -61,6 +61,10 @@ export function ListPage() {
                                         🥬{vegetableMap.get(item.vegetable)?.name}
                                     </span>
 
+                                    <span>
+                                        🍽️{item.quantity} ชาม
+                                    </span>
+
                                 </div>
 
                             </div>
