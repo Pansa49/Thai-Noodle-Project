@@ -1,13 +1,15 @@
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
-import Root from "./pages/Root"
+import { useEffect } from "react"
+import { useCartContext } from "./hook/use-cart-context.tsx"
+
 import { MenuPage } from "./pages/menu/MenuPage.tsx"
 import { menuLoader } from "./pages/menu/menuLoader.ts"
 import { ListPage } from "./pages/list/ListPage.tsx"
 import { listLoader } from "./pages/list/listLoader.ts"
 import { BillPage } from "./pages/bill/BillPage.tsx"
-import { useEffect } from "react"
-import { useCartContext } from "./hook/use-cart-context.tsx"
+import { billLoader } from "./pages/bill/billLoader.ts"
 
+import Root from "./pages/Root"
 
 const router = createBrowserRouter([
   {
@@ -31,7 +33,7 @@ const router = createBrowserRouter([
       {
         path: "bill",
         element: <BillPage />,
-        //loader: billPage,
+        loader: billLoader,
       },
     ]
   }

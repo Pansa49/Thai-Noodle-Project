@@ -10,6 +10,16 @@ export interface Menu {
     countNum: number;
 }
 
+export type CartItem = {
+    id: string;
+    soup: string;
+    noodle: number;
+    meat: number[];
+    vegetable: number;
+    quantity: number;
+    totalPrice: number;
+};
+
 interface OptionItem {
     id: number;
     name: string;
