@@ -1,11 +1,15 @@
 import { useLoaderData } from "react-router-dom";
-//import type { CartItem } from "../../api/menuDetail";
 import { type CartItem, meatMap, noodleMap, vegetableMap } from "../../api/menuDetail";
 
 export function BillPage() {
     const orders = useLoaderData() as CartItem[]
+    const subTotal = orders.reduce(
+        (sum, item) => sum + item.quantity * item.price,
+        0
+    )
 
-    const totalPrice = 100;
+    const vat = subTotal * 0.07
+    const total = subTotal + vat
 
     return (
         <div className="min-h-screen bg-gray-200 flex justify-center py-10">
@@ -62,17 +66,17 @@ export function BillPage() {
                 <div className="space-y-2">
                     <div className="flex justify-between">
                         <span>SUBTOTAL</span>
-                        <span>{totalPrice.toFixed(2)} ฿</span>
+                        <span>{subTotal.toFixed(2)} ฿</span>
                     </div>
 
                     <div className="flex justify-between">
                         <span>VAT 7%</span>
-                        <span>{(totalPrice * 0.07).toFixed(2)} ฿</span>
+                        <span>{vat.toFixed(2)} ฿</span>
                     </div>
 
                     <div className="border-t border-dashed pt-2 flex justify-between font-bold text-base">
                         <span>TOTAL</span>
-                        <span>{(totalPrice * 1.07).toFixed(2)} ฿</span>
+                        <span>{total.toFixed(2)} ฿</span>
                     </div>
                 </div>
 
