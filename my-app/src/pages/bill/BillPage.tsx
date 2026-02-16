@@ -11,6 +11,14 @@ export function BillPage() {
     const vat = subTotal * 0.07
     const total = subTotal + vat
 
+    if (orders.length === 0) {
+        return (
+            <p className="text-gray-500 text-center py-12">
+                ยังไม่มีรายการสั่งซื้อ
+            </p>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-gray-200 flex justify-center py-10">
 
