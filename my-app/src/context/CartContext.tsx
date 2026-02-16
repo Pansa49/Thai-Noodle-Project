@@ -60,6 +60,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         );
     };
 
+    const clearItems = () => {
+        setItems([]);
+    };
+
     const getItemDb = useCallback(async () => {
         const res = await axios.get("http://localhost:3001/orders")
         setItems(res.data);
@@ -86,18 +90,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setItems(updateOrder);
     };
 
-    const clearItems = () => {
-        setItems([]);
-    };
+
 
     return (
         <CartContext.Provider
             value={{
                 items,
-                saveItem,
-                updateItem,
-                getItemDb,
-                addItemDb, removeItem, deleteItemDb, clearItems
+                saveItem, removeItem, updateItem, clearItems,
+                getItemDb, addItemDb, deleteItemDb,
             }}
         >
             {children}

@@ -1,6 +1,4 @@
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
-import { useEffect } from "react"
-import { useCartContext } from "./hook/use-cart-context.tsx"
 
 import { MenuPage } from "./pages/menu/MenuPage.tsx"
 import { menuLoader } from "./pages/menu/menuLoader.ts"
