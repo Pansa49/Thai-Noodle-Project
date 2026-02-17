@@ -11,7 +11,6 @@ export function MenuPage() {
 
     return (
         <div className="container py-12 space-y-8">
-            <h1>MenuPage</h1>
             {menus.map((menu) => (
                 <div
                     className="bg-white rounded-2xl shadow hover:shadow-lg transition p-5"
