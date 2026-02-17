@@ -3,14 +3,14 @@ import { useCartContext } from "../hook/use-cart-context";
 
 export function Header() {
 
-    const { items, clearItems } = useCartContext()
+    const { items } = useCartContext()
     return (
         <header className="w-full border-b bg-white">
             <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
                 {/* Logo */}
                 <div className="text-xl font-bold text-blue-600 cursor-pointer">
-                    MyShop
+                    ร้านก๋วยเตียวเรือหน้าบ้าน โต๊ะ 1
                 </div>
 
                 <nav className="flex gap-5 text-smmd:text-base md:gap-12text-gray-600 font-medium">
@@ -60,13 +60,19 @@ export function Header() {
 
                     {/* Profile */}
                     <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
-                        <button
+                        {/* <button
                             onClick={() => {
                                 clearItems()
                             }}
                         >
                             👤
-                        </button>
+                        </button> */}
+
+                        <NavLink
+                            to="/login"
+                        >
+                            👤
+                        </NavLink>
                     </div>
                 </div>
             </div>
