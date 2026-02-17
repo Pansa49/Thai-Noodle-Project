@@ -1,15 +1,21 @@
 import { useLoaderData } from "react-router-dom";
 import { type CartItem, meatMap, noodleMap, vegetableMap } from "../../api/menuDetail";
+import { QRCodeSVG } from "qrcode.react"
+import { useState } from "react";
 
 export function BillPage() {
-    const orders = useLoaderData() as CartItem[]
+    const orders = useLoaderData() as CartItem[];
+    const [showQR, setShowQR] = useState(false);
+
     const subTotal = orders.reduce(
         (sum, item) => sum + item.quantity * item.price,
         0
-    )
+    );
 
-    const vat = subTotal * 0.07
-    const total = subTotal + vat
+    const vat = subTotal * 0.07;
+    const total = subTotal + vat;
+
+    const paymentPayload = `DEMO-PAYMENT AMOUNT:${total} SHOP:MYSHOP TIME:${Date.now()}`
 
     if (orders.length === 0) {
         return (
@@ -98,12 +104,21 @@ export function BillPage() {
                 </div>
 
                 {/* Pay Button */}
-                <button className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-800 active:scale-95 transition">
+                <button
+                    className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-800 active:scale-95 transition"
+                    onClick={() => setShowQR(true)}
+                >
                     PAY NOW
                 </button>
 
+                {/* QR Popup */}
+                <div className="flex justify-center mb-4 mt-6">
+                    <QRCodeSVG
+                        value={paymentPayload}
+                        size={200}
+                    />
+                </div>
             </div>
         </div>
-
     );
 }
