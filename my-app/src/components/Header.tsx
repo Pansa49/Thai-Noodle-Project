@@ -10,7 +10,7 @@ export function Header() {
 
                 {/* Logo */}
                 <div className="text-xl font-bold text-blue-600 cursor-pointer">
-                    ร้านก๋วยเตียวเรือหน้าบ้าน โต๊ะ 1
+                    MyShop
                 </div>
 
                 <nav className="flex gap-5 text-smmd:text-base md:gap-12text-gray-600 font-medium">
