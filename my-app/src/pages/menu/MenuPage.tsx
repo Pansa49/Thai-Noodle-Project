@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import type { Menu } from "../../api/menuDetail";
 import { PopUp } from "../../components/PopUP";
 
@@ -9,8 +9,11 @@ export function MenuPage() {
     const [openPopup, setOpenPopup] = useState(false);
     const [selectedSoup, setSelectedSoup] = useState<Menu | null>(null);
 
+    const { tableNo } = useParams();
+
     return (
         <div className="container py-12 space-y-8">
+            โต๊ะ {tableNo}
             {menus.map((menu) => (
                 <div
                     className="bg-white rounded-2xl shadow hover:shadow-lg transition p-5"

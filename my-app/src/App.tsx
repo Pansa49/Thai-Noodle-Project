@@ -16,20 +16,20 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="/menu" replace />,
+        element: <Navigate to="menu/:tableNo" replace />,
       },
       {
-        path: "menu",
+        path: "menu/:tableNo",
         element: <MenuPage />,
         loader: menuLoader,
       },
       {
-        path: "list",
+        path: "list/:tableNo",
         element: <ListPage />,
         loader: listLoader,
       },
       {
-        path: "bill",
+        path: "bill/:tableNo",
         element: <BillPage />,
         loader: billLoader,
       },

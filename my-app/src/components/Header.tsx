@@ -1,9 +1,13 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useCartContext } from "../hook/use-cart-context";
 
 export function Header() {
 
     const { items } = useCartContext()
+    const { tableNo } = useParams();
+
+    if (!tableNo) return null
+
     return (
         <header className="w-full border-b bg-white">
             <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -16,7 +20,7 @@ export function Header() {
                 <nav className="flex gap-5 text-smmd:text-base md:gap-12text-gray-600 font-medium">
 
                     <NavLink
-                        to="/menu"
+                        to={`/menu/${tableNo}`}
                         className={({ isActive }) =>
                             isActive
                                 ? "bg-blue-500 text-white rounded-md"
@@ -27,7 +31,7 @@ export function Header() {
                     </NavLink>
 
                     <NavLink
-                        to="/list"
+                        to={`list/${tableNo}`}
                         className={({ isActive }) =>
                             isActive
                                 ? "bg-blue-500 text-white rounded-md relative cursor-pointer"
@@ -44,7 +48,7 @@ export function Header() {
                     </NavLink>
 
                     <NavLink
-                        to="/bill"
+                        to={`bill/${tableNo}`}
                         className={({ isActive }) =>
                             isActive
                                 ? "bg-blue-500 text-white rounded-md"
