@@ -2,7 +2,7 @@ import { useLoaderData } from "react-router-dom";
 import { useCartContext } from "../../hook/use-cart-context";
 import { useState } from "react";
 import { PopUp } from "../../components/PopUP";
-import { meatMap, type Menu, noodleMap, vegetableMap } from "../../api/menuDetail";
+import { meatMap, type Menu, noodleMap, vegetableMap } from "../../../../shared/menuDetail";
 
 export function ListPage() {
 

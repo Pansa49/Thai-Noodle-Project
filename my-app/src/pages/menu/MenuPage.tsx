@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
-import type { Menu } from "../../api/menuDetail";
+import type { Menu } from "../../../../shared/menuDetail";
 import { PopUp } from "../../components/PopUP";
 
 export function MenuPage() {

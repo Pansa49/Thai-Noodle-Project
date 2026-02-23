@@ -1,6 +1,6 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 import axios from "axios";
-import type { CartItem } from "../api/menuDetail";
+import type { CartItem } from "../../../shared/menuDetail";
 
 type CartContextType = {
     id?: number;

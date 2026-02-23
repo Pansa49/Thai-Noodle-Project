@@ -1,4 +1,4 @@
-import data from "../../../backend/database/menudb.json"
+import data from "../backend/database/menudb.json"
 
 export interface Menu {
     id: number;
