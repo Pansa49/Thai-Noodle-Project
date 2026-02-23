@@ -1,4 +1,4 @@
-import menudb from "../../../../backend/database/menudb.json";
+import menudb from "../../../../backend/menudb.json";
 
 export async function listLoader() {
     return menudb.Menus;
