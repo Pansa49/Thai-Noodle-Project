@@ -1,18 +1,3 @@
 {
-  "orders": [
-    {
-      "id": "202602231309001",
-      "soup": "น้ำตก",
-      "noodle": 6,
-      "meat": [
-        4,
-        3,
-        2,
-        1
-      ],
-      "vegetable": 1,
-      "quantity": 4,
-      "price": 20
-    }
-  ]
+  "orders": []
 }
