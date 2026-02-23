@@ -1,5 +1,5 @@
-import billData from "../../../../backend/orderdb.json";
+import { getOrdersDb } from "../../api/fetchData";
 
 export async function billLoader() {
-    return billData.orders;
+    return getOrdersDb();
 }
