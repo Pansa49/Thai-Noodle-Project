@@ -2,13 +2,15 @@ import { useLoaderData } from "react-router-dom";
 import { useCartContext } from "../../hook/use-cart-context";
 import { useState } from "react";
 import { PopUp } from "../../components/PopUP";
-import { meatMap, type Menu, noodleMap, vegetableMap } from "../../../../shared/menuDetail";
+import type { Menu } from "../../../../shared/menuDetail";
+import { AddItemDb } from "../../api/fetchData";
+import { noodleMap, meatMap, vegetableMap } from "../../mappers/menuMapper";
 
 export function ListPage() {
 
     const menus = useLoaderData() as Menu[];
 
-    const { items, addItemDb, clearItems, removeItem } = useCartContext();
+    const { items, clearItems, removeItem } = useCartContext();
 
     const [openPopup, setOpenPopup] = useState(false);
     const [selectedSoup, setSelectedSoup] = useState<Menu | null>(null);
@@ -122,7 +124,7 @@ export function ListPage() {
                     <button
                         className="px-10 py-3 rounded-xl bg-blue-500 text-white font-medium hover:bg-blue-600 active:scale-95 transition"
                         onClick={() => {
-                            addItemDb(items);
+                            AddItemDb(items);
                             clearItems();
                         }}
                     >
