@@ -7,9 +7,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "backend": "npm run dev --prefix backend",
+    "backend-staff": "npm run dev --prefix backend-staff",
     "customer": "npm run dev --prefix customer-app",
     "staff": "npm run dev --prefix staff-app",
-    "dev": "concurrently \"npm run backend\" \"npm run customer\" \"npm run staff\""
+    "dev": "concurrently \"npm run backend\" \"npm run backend-staff\" \"npm run customer\" \"npm run staff\""
   },
   "keywords": [],
   "author": "",
