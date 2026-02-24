@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { login } from "../api/fetchData";
 
-export default function LoginPage() {
+export function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+
+    const navigate = useNavigate();
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -19,6 +22,7 @@ export default function LoginPage() {
 
             setError("");
             console.log("Login success", user);
+            navigate("/select-table");
         }
         catch (err) {
             console.log("LOGIN ERROR:", err);
@@ -27,6 +31,7 @@ export default function LoginPage() {
     }
 
     return (
+
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300">
 
             <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl">
@@ -83,5 +88,6 @@ export default function LoginPage() {
 
             </div>
         </div>
+
     );
 }

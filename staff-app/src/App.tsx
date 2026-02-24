@@ -1,13 +1,27 @@
-import LoginPage from "../src/page/LoginPage"
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
+import { LoginPage } from "./page/LoginPage";
+import { SelectedTablePage } from "./page/SelectTablePage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Navigate to="/login" replace />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/select-table",
+    element: <SelectedTablePage />,
+  },
+]);
 
 function App() {
-
-
   return (
-    <div>
-      <LoginPage />
+    <div className="inset-0 bg-black/10">
+      <RouterProvider router={router} />
     </div>
-
   )
 }
 
