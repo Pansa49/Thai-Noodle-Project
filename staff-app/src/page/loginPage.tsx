@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { login, getData } from "../api/fetchData";
+import { login } from "../api/fetchData";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -17,8 +17,11 @@ export default function LoginPage() {
                 return;
             }
 
+            setError("");
             console.log("Login success", user);
-        } catch (err) {
+        }
+        catch (err) {
+            console.log("LOGIN ERROR:", err);
             setError("เกิดข้อผิดพลาด");
         }
     }
