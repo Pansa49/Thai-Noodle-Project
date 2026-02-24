@@ -1,0 +1,16 @@
+{
+    "staff-data": [
+        {
+            "id": "001",
+            "name": "Employee1",
+            "mail": "employee_1@thainoodle.com",
+            "password": "Employee_1"
+        },
+        {
+            "id": "002",
+            "name": "Employee2",
+            "mail": "employee_2@thainoodle.com",
+            "password": "Employee_2"
+        }
+    ]
+}
