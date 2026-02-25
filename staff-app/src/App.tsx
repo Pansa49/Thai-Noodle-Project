@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
 import { LoginPage } from "./page/LoginPage";
 import { SelectedTablePage } from "./page/SelectTablePage";
+import { SelectRolePage } from "./page/SelectRolepage";
 
 const router = createBrowserRouter([
   {
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/role",
+    element: <SelectRolePage />
   },
   {
     path: "/select-table",

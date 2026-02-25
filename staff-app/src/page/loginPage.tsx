@@ -22,7 +22,7 @@ export function LoginPage() {
 
             setError("");
             console.log("Login success", user);
-            navigate("/select-table");
+            navigate("/role");
         }
         catch (err) {
             console.log("LOGIN ERROR:", err);
