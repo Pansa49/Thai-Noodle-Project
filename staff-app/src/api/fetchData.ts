@@ -11,10 +11,11 @@ export async function getUser(mail: string, password: string) {
     return response.data[0];
 }
 
-export async function timeLog(id: string, user: string) {
+export async function timeLog(id: string, user: string, role: string) {
     const response = await axios.post(BASE_URL_TIMELOG, {
         staffId: id,
         name: user,
+        role: role,
         timestamp: new Date().toISOString(),
     });
 

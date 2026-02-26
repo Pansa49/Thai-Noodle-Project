@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUser, timeLog } from "../api/fetchData";
+import { getUser } from "../api/fetchData";
+import { useUserContext } from "../hook/use-user-context";
 
 export function LoginPage() {
     const [email, setEmail] = useState("");
@@ -8,6 +9,8 @@ export function LoginPage() {
     const [error, setError] = useState("");
 
     const navigate = useNavigate();
+
+    const { updateData } = useUserContext();
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -21,14 +24,8 @@ export function LoginPage() {
             }
 
             setError("");
+            updateData(user.id, user.name);
             console.log("Login success", user);
-
-            try {
-                const timelog = await timeLog(user.id, user.name,);
-                console.log("Log", timelog);
-            } catch (logErr) {
-                console.error("TimeLog error:", logErr);
-            }
 
             navigate("/role");
         }

@@ -1,25 +1,23 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { timeLog } from "../api/fetchData";
+import { useUserContext } from "../hook/use-user-context";
 
 export function SelectRolePage() {
-
-    const [role, setRole] = useState("");
-
     const navigate = useNavigate();
-    const handleClick = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const { id, username } = useUserContext();
+
+    const handleClick = async (role: string) => {
         try {
-            //const timelog = await TimeLog(user.id, user.name,);
-            console.log("Log");
+            const timelog = await timeLog(id, username, role);
+            console.log("timelog", timelog);
+            navigate("/status");
         }
         catch (logErr) {
             console.error("TimeLog error:", logErr);
         }
 
-        navigate("/status");
-
     }
+
     return (
 
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300 px-6 py-10">
@@ -33,9 +31,7 @@ export function SelectRolePage() {
                  transition-all duration-300
                  hover:scale-105 hover:shadow-2xl
                  active:scale-95"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    onClick={handleClick}
+                    onClick={() => handleClick("Manager")}
                 >
                     Manager
                 </button>
@@ -47,9 +43,7 @@ export function SelectRolePage() {
                  transition-all duration-300
                  hover:scale-105 hover:shadow-2xl
                  active:scale-95"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    onClick={handleClick}
+                    onClick={() => handleClick("Manager")}
                 >
                     Cashier
                 </button>
@@ -61,9 +55,7 @@ export function SelectRolePage() {
                  transition-all duration-300
                  hover:scale-105 hover:shadow-2xl
                  active:scale-95"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    onClick={handleClick}
+                    onClick={() => handleClick("Waiter")}
                 >
                     Waiter
                 </button>
@@ -75,9 +67,7 @@ export function SelectRolePage() {
                  transition-all duration-300
                  hover:scale-105 hover:shadow-2xl
                  active:scale-95"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    onClick={handleClick}
+                    onClick={() => handleClick("PartTime")}
                 >
                     Part Time
                 </button>
