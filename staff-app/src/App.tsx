@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
 import { LoginPage } from "./page/LoginPage";
 import { SelectedTable } from "./page/CashierPage";
 import { RolePage } from "./page/RolePage";
-import { StatusPage } from "./page/StatusPage";
 
 import Body from "./page/Body";
 
@@ -36,10 +35,6 @@ const router = createBrowserRouter([
         //element: <WaiterPage />,
       },
     ]
-  },
-  {
-    path: "/status",
-    element: <StatusPage />
   },
 ]);
 
