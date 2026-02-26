@@ -10,7 +10,7 @@ export function SelectRolePage() {
         try {
             const timelog = await timeLog(id, username, role);
             console.log("timelog", timelog);
-            navigate("/status");
+            navigate(`/role/${role}`);
         }
         catch (logErr) {
             console.error("TimeLog error:", logErr);
@@ -43,7 +43,7 @@ export function SelectRolePage() {
                  transition-all duration-300
                  hover:scale-105 hover:shadow-2xl
                  active:scale-95"
-                    onClick={() => handleClick("Manager")}
+                    onClick={() => handleClick("Cashier")}
                 >
                     Cashier
                 </button>

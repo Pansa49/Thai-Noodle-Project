@@ -4,6 +4,8 @@ import { SelectedTablePage } from "./page/SelectTablePage";
 import { SelectRolePage } from "./page/SelectRolepage";
 import { StatusPage } from "./page/StatusPage";
 
+import Body from "./page/Body";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,13 +20,18 @@ const router = createBrowserRouter([
     element: <SelectRolePage />
   },
   {
+    path: "/role/:rolename",
+    element: <Body />,
+    children: [
+      {
+        path: "select-table", //page for cashier
+        element: <SelectedTablePage />,
+      },
+    ]
+  },
+  {
     path: "/status",
     element: <StatusPage />
-  },
-
-  {
-    path: "/select-table/",
-    element: <SelectedTablePage />,
   },
 ]);
 
