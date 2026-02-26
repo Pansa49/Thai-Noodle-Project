@@ -14,43 +14,42 @@ interface Table {
     y: number;
 }
 
-const CONTAINER_WIDTH = 600;
-const CONTAINER_HEIGHT = 400;
-const TABLE_SIZE = 0.1 * CONTAINER_WIDTH;
+const TABLE_SIZE = 60;
 const PADDING = 20;
 const GRID_SIZE = 20;
+const tableSize = window.innerWidth < 768 ? 70 : 100;
 
 export function SelectedTable() {
     const [tables, setTables] = useState<Table[]>([]);
     const [isEditMode, setIsEditMode] = useState(false);
     const [tableCount, setTableCount] = useState(2);
 
+
     function generateTables() {
+        const container = document.getElementById("table-container");
+        if (!container) return;
+
+        const rect = container.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
+
         const newTables: Table[] = [];
 
-        const GAP = 14; // ระยะห่างระหว่างโต๊ะ
-        const usableWidth =
-            CONTAINER_WIDTH - PADDING * 2;
+        const tableSize = width < 768 ? 70 : 100;
+        const GAP = 14;
 
-        // คำนวณว่าหนึ่งแถววางได้กี่โต๊ะ
-        const perRow = Math.floor(
-            usableWidth / (TABLE_SIZE + GAP)
-        );
+        const usableWidth = width - PADDING * 2;
+        const perRow = Math.floor(usableWidth / (tableSize + GAP));
 
         for (let i = 0; i < tableCount; i++) {
             const row = Math.floor(i / perRow);
             const col = i % perRow;
 
-            const x =
-                PADDING + col * (TABLE_SIZE + GAP);
+            const x = PADDING + col * (tableSize + GAP);
+            const y = PADDING + row * (tableSize + GAP);
 
-            const y =
-                PADDING + row * (TABLE_SIZE + GAP);
-            if (
-                y > CONTAINER_HEIGHT - TABLE_SIZE - PADDING
-            ) {
-                break;
-            }
+            if (y > height - tableSize - PADDING) break;
+
             newTables.push({
                 id: i + 1,
                 name: `${i + 1}`,
@@ -67,26 +66,34 @@ export function SelectedTable() {
 
         const { active, delta } = event;
 
+        const container = document.getElementById("table-container");
+        if (!container) return;
+
+        const rect = container.getBoundingClientRect();
+
+        const width = rect.width;
+        const height = rect.height;
+
         setTables((prev) =>
             prev.map((table) => {
                 if (table.id !== active.id) return table;
 
                 let newX = table.x + delta.x;
                 let newY = table.y + delta.y;
-
                 // ✅ SNAP TO GRID
                 newX = Math.round(newX / GRID_SIZE) * GRID_SIZE;
                 newY = Math.round(newY / GRID_SIZE) * GRID_SIZE;
 
                 // ✅ กันเลยขอบ + เว้น padding
+
                 const clampedX = Math.max(
                     PADDING,
-                    Math.min(newX, CONTAINER_WIDTH - TABLE_SIZE - PADDING)
+                    Math.min(newX, width - TABLE_SIZE - PADDING)
                 );
 
                 const clampedY = Math.max(
                     PADDING,
-                    Math.min(newY, CONTAINER_HEIGHT - TABLE_SIZE - PADDING)
+                    Math.min(newY, height - TABLE_SIZE - PADDING)
                 );
 
                 return { ...table, x: clampedX, y: clampedY };
@@ -127,11 +134,8 @@ export function SelectedTable() {
 
             <DndContext onDragEnd={handleDragEnd}>
                 <div
-                    className="relative border-2 rounded-xl bg-gray-100 overflow-hidden"
-                    style={{
-                        width: CONTAINER_WIDTH,
-                        height: CONTAINER_HEIGHT,
-                    }}
+                    id="table-container"
+                    className="relative border-2 rounded-xl bg-gray-100 w-full max-w-5xl h-[75vh] mx-auto"
                 >
                     {isEditMode && (
                         <div className="absolute inset-0 pointer-events-none z-0">
@@ -188,8 +192,8 @@ function DraggableTable({
         left: table.x,
         top: table.y,
         transform: CSS.Translate.toString(transform),
-        width: TABLE_SIZE,
-        height: TABLE_SIZE,
+        width: tableSize,
+        height: tableSize,
     };
 
     return (
