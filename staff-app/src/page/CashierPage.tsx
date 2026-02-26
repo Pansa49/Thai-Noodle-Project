@@ -16,7 +16,7 @@ const mockTables: Table[] = [
     { id: 5, name: "VIP1", seats: 8, status: "occupied" },
 ];
 
-export function SelectedTablePage() {
+export function SelectedTable() {
     const [tables, setTables] = useState<Table[]>(mockTables);
     const [selectedTable, setSelectedTable] = useState<Table | null>(null);
 

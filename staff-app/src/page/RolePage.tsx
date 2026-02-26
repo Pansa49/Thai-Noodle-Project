@@ -31,7 +31,7 @@ export function RolePage() {
                  transition-all duration-300
                  hover:scale-105 hover:shadow-2xl
                  active:scale-95"
-                    onClick={() => handleClick("Manager")}
+                    onClick={() => handleClick("manager")}
                 >
                     Manager
                 </button>
@@ -43,7 +43,7 @@ export function RolePage() {
                  transition-all duration-300
                  hover:scale-105 hover:shadow-2xl
                  active:scale-95"
-                    onClick={() => handleClick("Cashier")}
+                    onClick={() => handleClick("cashier")}
                 >
                     Cashier
                 </button>
@@ -55,7 +55,7 @@ export function RolePage() {
                  transition-all duration-300
                  hover:scale-105 hover:shadow-2xl
                  active:scale-95"
-                    onClick={() => handleClick("Waiter")}
+                    onClick={() => handleClick("waiter")}
                 >
                     Waiter
                 </button>
@@ -67,7 +67,7 @@ export function RolePage() {
                  transition-all duration-300
                  hover:scale-105 hover:shadow-2xl
                  active:scale-95"
-                    onClick={() => handleClick("PartTime")}
+                    onClick={() => handleClick("part-time")}
                 >
                     Part Time
                 </button>
