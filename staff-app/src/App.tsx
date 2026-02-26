@@ -14,15 +14,16 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: "/status",
-    element: <StatusPage />
-  },
-  {
     path: "/role",
     element: <SelectRolePage />
   },
   {
-    path: "/select-table",
+    path: "/status",
+    element: <StatusPage />
+  },
+
+  {
+    path: "/select-table/",
     element: <SelectedTablePage />,
   },
 ]);
