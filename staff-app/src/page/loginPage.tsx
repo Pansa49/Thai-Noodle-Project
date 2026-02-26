@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api/fetchData";
+import { getUser, timeLog } from "../api/fetchData";
 
 export function LoginPage() {
     const [email, setEmail] = useState("");
@@ -13,7 +13,7 @@ export function LoginPage() {
         e.preventDefault();
 
         try {
-            const user = await login(email, password);
+            const user = await getUser(email, password);
 
             if (!user) {
                 setError("Email หรือ Password ไม่ถูกต้อง");
@@ -22,6 +22,14 @@ export function LoginPage() {
 
             setError("");
             console.log("Login success", user);
+
+            try {
+                const timelog = await timeLog(user.id, user.name,);
+                console.log("Log", timelog);
+            } catch (logErr) {
+                console.error("TimeLog error:", logErr);
+            }
+
             navigate("/role");
         }
         catch (err) {
