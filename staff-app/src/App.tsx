@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
 import { LoginPage } from "./page/LoginPage";
-import { SelectedTablePage } from "./page/SelectTablePage";
-import { SelectRolePage } from "./page/SelectRolepage";
+import { SelectedTablePage } from "./page/CashierPage";
+import { RolePage } from "./page/RolePage";
 import { StatusPage } from "./page/StatusPage";
 
 import Body from "./page/Body";
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/role",
-    element: <SelectRolePage />
+    element: <RolePage />
   },
   {
     path: "/role/:rolename",

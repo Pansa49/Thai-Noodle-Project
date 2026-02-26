@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { timeLog } from "../api/fetchData";
 import { useUserContext } from "../hook/use-user-context";
 
-export function SelectRolePage() {
+export function RolePage() {
     const navigate = useNavigate();
     const { id, username } = useUserContext();
 
