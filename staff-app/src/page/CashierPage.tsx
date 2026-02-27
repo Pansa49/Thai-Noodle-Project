@@ -14,7 +14,6 @@ interface Table {
     y: number;
 }
 
-const TABLE_SIZE = 60;
 const PADDING = 20;
 const GRID_SIZE = 20;
 const tableSize = window.innerWidth < 768 ? 70 : 100;
@@ -85,15 +84,14 @@ export function SelectedTable() {
                 newY = Math.round(newY / GRID_SIZE) * GRID_SIZE;
 
                 // ✅ กันเลยขอบ + เว้น padding
-
                 const clampedX = Math.max(
                     PADDING,
-                    Math.min(newX, width - TABLE_SIZE - PADDING)
+                    Math.min(newX, width - tableSize - PADDING)
                 );
 
                 const clampedY = Math.max(
                     PADDING,
-                    Math.min(newY, height - TABLE_SIZE - PADDING)
+                    Math.min(newY, height - tableSize - PADDING)
                 );
 
                 return { ...table, x: clampedX, y: clampedY };

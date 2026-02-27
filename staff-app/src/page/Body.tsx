@@ -4,7 +4,7 @@ import { Header } from "../components/header";
 function Body() {
     const { rolename } = useParams();
     return (
-        <div className="container mx-auto px-20">
+        <div className="mx-auto max-w-[900px] px-16">
             <Header />
             <p>Role: {rolename}</p>
             <Outlet />
