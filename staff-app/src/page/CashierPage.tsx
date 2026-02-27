@@ -12,6 +12,7 @@ interface Table {
     name: string;
     x: number;
     y: number;
+    status?: "available" | "reserved";
 }
 
 const PADDING = 20;
@@ -22,7 +23,7 @@ export function SelectedTable() {
     const [tables, setTables] = useState<Table[]>([]);
     const [isEditMode, setIsEditMode] = useState(false);
     const [tableCount, setTableCount] = useState(2);
-
+    const [selectedTable, setSelectedTable] = useState<Table | null>(null);
 
     function generateTables() {
         const container = document.getElementById("table-container");
@@ -54,6 +55,7 @@ export function SelectedTable() {
                 name: `${i + 1}`,
                 x,
                 y,
+                status: "available",
             });
         }
 
@@ -165,21 +167,64 @@ export function SelectedTable() {
                             key={table.id}
                             table={table}
                             isEditMode={isEditMode}
+                            onSelect={() => {
+                                if (!isEditMode) {
+                                    setSelectedTable(table);
+                                }
+                            }}
                         />
                     ))}
                 </div>
             </DndContext>
+
+            {selectedTable && (
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-xl p-6 w-80 shadow-xl">
+                        <h2 className="text-xl font-bold mb-4 text-center">
+                            ยืนยันการจองโต๊ะ {selectedTable.name}
+                        </h2>
+
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={() => {
+                                    setTables((prev) =>
+                                        prev.map((t) =>
+                                            t.id === selectedTable.id
+                                                ? { ...t, status: "available" }
+                                                : t
+                                        )
+                                    );
+                                    setSelectedTable(null);
+                                }}
+                                className="px-4 py-2 bg-gray-300 rounded-lg"
+                            >
+                                ยกเลิกจองโต๊ะ
+                            </button>
+
+                            <button
+                                onClick={() => {
+                                    setTables((prev) =>
+                                        prev.map((t) =>
+                                            t.id === selectedTable.id
+                                                ? { ...t, status: "reserved" }
+                                                : t
+                                        )
+                                    );
+                                    setSelectedTable(null);
+                                }}
+                                className="px-4 py-2 bg-green-600 text-white rounded-lg"
+                            >
+                                จองโต๊ะ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
 
-function DraggableTable({
-    table,
-    isEditMode,
-}: {
-    table: Table;
-    isEditMode: boolean;
-}) {
+function DraggableTable({ table, isEditMode, onSelect, }: { table: Table; isEditMode: boolean; onSelect: () => void; }) {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
         id: table.id,
         disabled: !isEditMode,
@@ -200,10 +245,16 @@ function DraggableTable({
             style={style}
             {...listeners}
             {...attributes}
+            onClick={onSelect}
             className={`rounded-xl flex flex-col items-center justify-center
 text-white font-semibold shadow-lg select-none
-border-2 border-black
-${isEditMode ? "bg-yellow-500 cursor-grab" : "bg-green-500"}`}
+border-2 border-black transition-colors duration-200
+${isEditMode
+                    ? "bg-yellow-500 cursor-grab"
+                    : table.status === "reserved"
+                        ? "bg-red-500 cursor-not-allowed"
+                        : "bg-green-500 hover:bg-blue-500 cursor-pointer"
+                }`}
         >
             <div>{table.name}</div>
         </div>
