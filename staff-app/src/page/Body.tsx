@@ -1,12 +1,10 @@
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { Header } from "../components/header";
 
 function Body() {
-    const { rolename } = useParams();
     return (
-        <div className="mx-auto max-w-[900px] px-16">
+        <div className="mx-auto w-full max-w-[900px] px-4 md:px-10">
             <Header />
-            <p>Role: {rolename}</p>
             <Outlet />
         </div>
     )

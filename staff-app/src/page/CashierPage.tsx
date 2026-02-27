@@ -111,19 +111,19 @@ export function SelectedTable() {
                     max={25}
                     value={tableCount}
                     onChange={(e) => setTableCount(Number(e.target.value))}
-                    className="border px-4 py-2 rounded-lg w-24"
+                    className="border px-4 py-2 rounded-lg w-15"
                 />
 
                 <button
                     onClick={generateTables}
-                    className="bg-green-600 text-white px-6 py-2 rounded-lg"
+                    className="bg-green-600 text-white px-5 py-2 rounded-lg"
                 >
                     สร้างโต๊ะ
                 </button>
 
                 <button
                     onClick={() => setIsEditMode(!isEditMode)}
-                    className={`px-6 py-2 rounded-lg text-white
+                    className={`px-5 py-2 rounded-lg text-white
           ${isEditMode ? "bg-red-500" : "bg-blue-600"}`}
                 >
                     {isEditMode ? "เสร็จสิ้น" : "แก้ไขตำแหน่ง"}
