@@ -178,44 +178,72 @@ export function SelectedTable() {
             </DndContext>
 
             {selectedTable && (
-                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                <div
+                    className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+                    onClick={() => setSelectedTable(null)}
+                >
                     <div className="bg-white rounded-xl p-6 w-80 shadow-xl">
                         <h2 className="text-xl font-bold mb-4 text-center">
-                            ยืนยันการจองโต๊ะ {selectedTable.name}
+                            {selectedTable.status === "reserved"
+                                ? `โต๊ะ ${selectedTable.name} ถูกจองแล้ว`
+                                : `ยืนยันการจองโต๊ะ ${selectedTable.name}`}
                         </h2>
 
                         <div className="flex justify-end gap-3">
-                            <button
-                                onClick={() => {
-                                    setTables((prev) =>
-                                        prev.map((t) =>
-                                            t.id === selectedTable.id
-                                                ? { ...t, status: "available" }
-                                                : t
-                                        )
-                                    );
-                                    setSelectedTable(null);
-                                }}
-                                className="px-4 py-2 bg-gray-300 rounded-lg"
-                            >
-                                ยกเลิกจองโต๊ะ
-                            </button>
 
-                            <button
-                                onClick={() => {
-                                    setTables((prev) =>
-                                        prev.map((t) =>
-                                            t.id === selectedTable.id
-                                                ? { ...t, status: "reserved" }
-                                                : t
-                                        )
-                                    );
-                                    setSelectedTable(null);
-                                }}
-                                className="px-4 py-2 bg-green-600 text-white rounded-lg"
-                            >
-                                จองโต๊ะ
-                            </button>
+                            {/* ถ้าโต๊ะถูกจองแล้ว → แสดง ปุ่มปิด ปุ่มยกเลิกการจอง*/}
+                            {selectedTable.status === "reserved" ? (
+                                <>
+
+                                    <button
+                                        onClick={() => setSelectedTable(null)}
+                                        className="px-4 py-2 bg-gray-300 rounded-lg"
+                                    >
+                                        ปิด
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setTables((prev) =>
+                                                prev.map((t) =>
+                                                    t.id === selectedTable.id
+                                                        ? { ...t, status: "available" }
+                                                        : t
+                                                )
+                                            );
+                                            setSelectedTable(null);
+                                        }}
+                                        className="px-4 py-2 bg-red-500 text-white rounded-lg"
+                                    >
+                                        ยกเลิกการจอง
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    {/* ถ้ายังไม่จอง → แสดง ปุ่มปิด ปุ่มจองโต๊ะ*/}
+                                    <button
+                                        onClick={() => setSelectedTable(null)}
+                                        className="px-4 py-2 bg-gray-300 rounded-lg"
+                                    >
+                                        ปิด
+                                    </button>
+
+                                    <button
+                                        onClick={() => {
+                                            setTables((prev) =>
+                                                prev.map((t) =>
+                                                    t.id === selectedTable.id
+                                                        ? { ...t, status: "reserved" }
+                                                        : t
+                                                )
+                                            );
+                                            setSelectedTable(null);
+                                        }}
+                                        className="px-4 py-2 bg-green-600 text-white rounded-lg"
+                                    >
+                                        จองโต๊ะ
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
