@@ -1,18 +1,13 @@
 {
   "name": "backend-staff",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "json-server staffdb.json --port 4000",
-    "start": "npx json-server --host 0.0.0.0 --watch staffdb.json --port $PORT"
+    "start": "json-server --host 0.0.0.0 --watch staffdb.json --port $PORT"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "type": "commonjs",
-  "devDependencies": {
+  "dependencies": {
     "json-server": "^0.17.4"
   }
 }
