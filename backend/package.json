@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "json-server orderdb.json --port 3001"
+    "dev": "json-server orderdb.json --port 3001",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
