@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "json-server staffdb.json --port 4000",
-    "start": "json-server --host 0.0.0.0 --watch orderdb.json --port $PORT"
+    "dev": "json-server staffdb.json --port 4000"
   },
   "keywords": [],
   "author": "",
