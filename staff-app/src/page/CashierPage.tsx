@@ -6,6 +6,7 @@ import {
 import type { DragEndEvent } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
+import { QRCodeSVG } from "qrcode.react";
 
 interface Table {
     id: number;
@@ -25,7 +26,10 @@ export function SelectedTable() {
     const [tableCount, setTableCount] = useState(2);
     const [selectedTable, setSelectedTable] = useState<Table | null>(null);
 
-    function generateTables() {
+    const [qrValue, setQrValue] = useState("");
+    const [showQR, setShowQR] = useState(false);
+
+    const generateTables = () => {
         const container = document.getElementById("table-container");
         if (!container) return;
 
@@ -62,7 +66,14 @@ export function SelectedTable() {
         setTables(newTables);
     }
 
-    function handleDragEnd(event: DragEndEvent) {
+    const generateQRCode = (tableNo: number) => {
+        const CUSTOMER_URL = import.meta.env.VITE_CUSTOMER_URL;
+        const url = `${CUSTOMER_URL}/menu/${tableNo}`;
+        setQrValue(url);
+        setShowQR(true);
+    }
+
+    const handleDragEnd = (event: DragEndEvent) => {
         if (!isEditMode) return;
 
         const { active, delta } = event;
@@ -125,8 +136,7 @@ export function SelectedTable() {
 
                 <button
                     onClick={() => setIsEditMode(!isEditMode)}
-                    className={`px-5 py-2 rounded-lg text-white
-          ${isEditMode ? "bg-red-500" : "bg-blue-600"}`}
+                    className={`px-5 py-2 rounded-lg text-white ${isEditMode ? "bg-red-500" : "bg-blue-600"}`}
                 >
                     {isEditMode ? "เสร็จสิ้น" : "แก้ไขตำแหน่ง"}
                 </button>
@@ -229,6 +239,9 @@ export function SelectedTable() {
 
                                     <button
                                         onClick={() => {
+                                            generateQRCode(selectedTable.id)
+
+
                                             setTables((prev) =>
                                                 prev.map((t) =>
                                                     t.id === selectedTable.id
@@ -245,6 +258,33 @@ export function SelectedTable() {
                                 </>
                             )}
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {showQR && (
+                <div
+                    className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+                    onClick={() => setShowQR(false)}
+                >
+                    <div
+                        className="bg-white rounded-xl p-6 w-80 shadow-xl text-center"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h2 className="text-xl font-bold mb-4">
+                            QR Code โต๊ะ {qrValue.split("/").pop()}
+                        </h2>
+
+                        <div className="flex justify-center mb-4">
+                            <QRCodeSVG value={qrValue} size={200} />
+                        </div>
+
+                        <button
+                            onClick={() => setShowQR(false)}
+                            className="px-4 py-2 bg-gray-400 text-white rounded-lg"
+                        >
+                            ปิด
+                        </button>
                     </div>
                 </div>
             )}
