@@ -10,15 +10,8 @@ export function Header() {
 
     return (
         <header className="w-full border-b bg-white">
-            <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-
-                {/* Logo */}
-                <div className="text-xl font-bold text-blue-600 cursor-pointer">
-                    MyShop
-                </div>
-
+            <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-center">
                 <nav className="flex gap-5 text-smmd:text-base md:gap-12text-gray-600 font-medium">
-
                     <NavLink
                         to={`/menu/${tableNo}`}
                         className={({ isActive }) =>
@@ -58,27 +51,6 @@ export function Header() {
                         Bill
                     </NavLink>
                 </nav>
-
-                {/* Right action */}
-                <div className="flex items-center gap-4">
-
-                    {/* Profile */}
-                    <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
-                        {/* <button
-                            onClick={() => {
-                                clearItems()
-                            }}
-                        >
-                            👤
-                        </button> */}
-
-                        <NavLink
-                            to="/login"
-                        >
-                            👤
-                        </NavLink>
-                    </div>
-                </div>
             </div>
         </header>
     )

@@ -13,7 +13,15 @@ export function MenuPage() {
 
     return (
         <div className="container py-12 space-y-8">
-            โต๊ะ {tableNo}
+            <div className="text-center space-y-3">
+                <h1 className="text-4xl font-extrabold text-gray-800">
+                    โต๊ะ {tableNo}
+                </h1>
+
+                <p className="text-gray-500">
+                    กรุณาเลือกเมนูที่ต้องการสั่ง
+                </p>
+            </div>
             {menus.map((menu) => (
                 <div
                     className="bg-white rounded-2xl shadow hover:shadow-lg transition p-5"
