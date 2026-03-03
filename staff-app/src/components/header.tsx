@@ -15,7 +15,7 @@ export function Header() {
 
             {/* Logo / Title */}
             <h1 className="text-xl font-bold text-gray-800">
-                MyApp
+                Boat Noodle Lab
             </h1>
 
             {/* User Section */}
