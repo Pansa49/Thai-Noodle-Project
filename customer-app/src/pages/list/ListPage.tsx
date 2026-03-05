@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import { useCartContext } from "../../hook/use-cart-context";
 import { useState } from "react";
 import { PopUp } from "../../components/PopUP";
@@ -10,11 +10,13 @@ export function ListPage() {
 
     const menus = useLoaderData() as Menu[];
 
-    const { items, clearItems, removeItem } = useCartContext();
+    const { userID, items, clearItems, removeItem } = useCartContext();
 
     const [openPopup, setOpenPopup] = useState(false);
     const [selectedSoup, setSelectedSoup] = useState<Menu | null>(null);
     const [popupId, setPopupId] = useState<string>("");
+
+    const { tableNo } = useParams();
 
     if (items.length === 0) {
         return (
@@ -124,7 +126,8 @@ export function ListPage() {
                     <button
                         className="px-10 py-3 rounded-xl bg-blue-500 text-white font-medium hover:bg-blue-600 active:scale-95 transition"
                         onClick={() => {
-                            AddItemDb(items);
+                            if (!tableNo) return;
+                            AddItemDb(items, tableNo, "ordering", userID);
                             clearItems();
                         }}
                     >

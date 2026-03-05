@@ -3,12 +3,19 @@ import type { CartItem } from "../../../shared/menuDetail";
 
 const BASE_URL = "https://thai-noodle-lab-customer-db-production.up.railway.app"
 
-export async function AddItemDb(orders: CartItem[]) {
+export async function AddItemDb(orders: CartItem[], tableNo: string, status: string, userId: string) {
     for (const order of orders) {
         try {
+            const orderData = {
+                userId: userId,
+                ...order,
+                tableNo: tableNo,
+                status: status
+            };
             await axios.post(
                 `${BASE_URL}/orders`,
-                order
+                orderData,
+
             );
         } catch (error) {
             console.error("Add item failed:", error);
