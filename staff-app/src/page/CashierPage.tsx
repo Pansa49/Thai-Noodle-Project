@@ -67,8 +67,8 @@ export function SelectedTable() {
     }
 
     const generateQRCode = (tableNo: number) => {
-        const CUSTOMER_URL = import.meta.env.VITE_CUSTOMER_URL;
-        const url = `${CUSTOMER_URL}/menu/${tableNo}`;
+        const BASE_URL = "https://thai-noodle-lab-customer-db-production.up.railway.app"
+        const url = `${BASE_URL}/menu/${tableNo}`;
         setQrValue(url);
         setShowQR(true);
     }
