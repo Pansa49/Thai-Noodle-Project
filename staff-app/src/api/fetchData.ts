@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://thai-noodle-lab-staff-db-production.up.railway.app/"
+const BASE_URL = "https://thai-noodle-lab-staff-db-production.up.railway.app"
 // const BASE_URL_LOGIN = "http://localhost:4000/staff-data"
 // const BASE_URL_TIMELOG = "http://localhost:4000/time-log"
 
