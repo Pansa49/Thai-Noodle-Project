@@ -12,7 +12,7 @@ export function MenuPage() {
     const { tableNo } = useParams();
 
     return (
-        <div className="container py-12 space-y-8">
+        <div className="container py-12 space-y-8 px-10">
             <div className="text-center space-y-3">
                 <h1 className="text-4xl font-extrabold text-gray-800">
                     โต๊ะ {tableNo}
