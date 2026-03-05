@@ -1,31 +1,35 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect, } from "react";
+import type { ReactNode } from "react";
 
-type UsertContextType = {
-    id: string;
-    username: string;
-
-    updateData: (id: string, user: string) => void;
+type UserContextType = {
+    userId: string | null;
+    username: string | null;
+    updateData: (id: string, name: string) => void;
 };
 
-export const UserContext = createContext<UsertContextType | null>(null);
+export const UserContext = createContext<UserContextType | null>(null);
 
-export function UserProvider({ children }: { children: React.ReactNode }) {
-    const [id, setId] = useState<string>("");
-    const [username, setUsername] = useState<string>("");
+export function UserProvider({ children }: { children: ReactNode }) {
+    const [userId, setUserId] = useState<string | null>("");
+    const [username, setUsername] = useState<string | null>("");
 
-    const updateData = (id: string, user: string) => {
-        setId(id);;
-        setUsername(user);
+    useEffect(() => {
+        const user = localStorage.getItem("user");
+
+        if (user) {
+            const parsed = JSON.parse(user);
+            setUsername(parsed.name);
+            setUserId(parsed.id);
+        }
+    }, []);
+
+    function updateData(id: string, name: string) {
+        setUserId(id);
+        setUsername(name);
     }
 
-
     return (
-        <UserContext.Provider value={{
-            id,
-            username,
-            updateData
-        }}
-        >
+        <UserContext.Provider value={{ username, userId, updateData }}>
             {children}
         </UserContext.Provider>
     );

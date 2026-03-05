@@ -6,9 +6,11 @@ export function Header() {
 
     const { username } = useUserContext();
     const handleLogout = () => {
-
+        localStorage.removeItem("user");
         navigate("/login");
     };
+
+
 
     return (
         <header className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
