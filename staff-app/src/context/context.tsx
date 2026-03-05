@@ -17,7 +17,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         const user = localStorage.getItem("user");
 
         if (user) {
-            const parsed = JSON.parse(user);
+            const parsed: { id: string; name: string } = JSON.parse(user);
             setUsername(parsed.name);
             setUserId(parsed.id);
         }
