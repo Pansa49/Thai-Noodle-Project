@@ -81,7 +81,7 @@ export function ListPage() {
                                     {item.price * item.quantity} ฿
                                 </p>
 
-                                <div className="flex gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
+                                <div className="flex gap-2 ">
 
                                     <button
                                         className="px-4 py-2 text-sm rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
