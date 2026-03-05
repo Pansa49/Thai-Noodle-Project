@@ -67,7 +67,8 @@ export function SelectedTable() {
     }
 
     const generateQRCode = (tableNo: number) => {
-        const BASE_URL = "https://thai-noodle-lab-customer-db-production.up.railway.app"
+
+        const BASE_URL = "https://thai-noodle-project-customer.vercel.app"
         const url = `${BASE_URL}/menu/${tableNo}`;
         setQrValue(url);
         setShowQR(true);
