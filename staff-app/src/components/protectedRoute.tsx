@@ -1,12 +1,12 @@
-import type { JSX } from "react/jsx-dev-runtime";
+import type { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
-export function ProtectedRoute({ children }: { children: JSX.Element }) {
+export function ProtectedRoute({ children }: { children: ReactNode }) {
     const user = localStorage.getItem("user");
 
     if (!user) {
         return <Navigate to="/login" replace />;
     }
 
-    return children;
+    return <>{children}</>;
 }

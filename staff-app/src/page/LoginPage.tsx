@@ -16,6 +16,11 @@ export function LoginPage() {
         e.preventDefault();
 
         try {
+            if (!email || !password) {
+                setError("กรุณากรอก Email และ Password");
+                return;
+            }
+
             const user = await getUser(email, password);
 
             if (!user) {
