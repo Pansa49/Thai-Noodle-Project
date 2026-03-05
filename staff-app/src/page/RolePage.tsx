@@ -4,18 +4,18 @@ import { useUserContext } from "../hook/use-user-context";
 
 export function RolePage() {
     const navigate = useNavigate();
-    const { id, username } = useUserContext();
+    const { username, userId } = useUserContext();
 
     const handleClick = async (role: string) => {
+        if (!userId || !username) return;
+
         try {
-            const timelog = await timeLog(id, username, role);
-            console.log("timelog", timelog);
+            const timelog = await timeLog(userId, username, role);
             navigate(`/role/${role}`);
         }
         catch (logErr) {
             console.error("TimeLog error:", logErr);
         }
-
     }
 
     return (
