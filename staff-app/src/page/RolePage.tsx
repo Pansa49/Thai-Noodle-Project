@@ -10,7 +10,7 @@ export function RolePage() {
         if (!userId || !username) return;
 
         try {
-            const timelog = await timeLog(userId, username, role);
+            await timeLog(userId, username, role);
             navigate(`/role/${role}`);
         }
         catch (logErr) {
