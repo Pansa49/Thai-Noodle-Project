@@ -23,6 +23,8 @@ export function LoginPage() {
                 return;
             }
 
+            localStorage.setItem("user", JSON.stringify(user));
+
             setError("");
             updateData(user.id, user.name);
             console.log("Login success", user);

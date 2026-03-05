@@ -2,8 +2,9 @@ import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
 import { LoginPage } from "./page/LoginPage";
 import { SelectedTable } from "./page/CashierPage";
 import { RolePage } from "./page/RolePage";
+import { Body } from "./page/Body";
+import { ProtectedRoute } from "./components/protectedRoute";
 
-import Body from "./page/Body";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/role",
-    element: <Body />,
+    element: (
+      <ProtectedRoute>
+        <Body />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,

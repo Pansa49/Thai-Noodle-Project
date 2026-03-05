@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Header } from "../components/header";
 
-function Body() {
+export function Body() {
     return (
         <div className="mx-auto w-full max-w-[900px] px-4 md:px-10">
             <Header />
@@ -9,5 +9,3 @@ function Body() {
         </div>
     )
 }
-
-export default Body
