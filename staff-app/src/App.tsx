@@ -23,15 +23,15 @@ const router = createBrowserRouter([
     element: <Body />,
     children: [
       {
-        path: "/role/cashier",
+        path: "/cashier",
         element: <SelectedTable />,
       },
       {
-        path: "/role/manager",
+        path: "/manager",
         //element: <ManagerPage />,
       },
       {
-        path: "/role/waiter",
+        path: "/waiter",
         //element: <WaiterPage />,
       },
     ]
