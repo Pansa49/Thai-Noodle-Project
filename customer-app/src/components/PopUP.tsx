@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Menu } from "../../../shared/menuDetail";
 import { useCartContext } from "../hook/use-cart-context";
-import { noodleMap, meatMap, vegetableMap } from "../mappers/menuMapper"
+import { noodleMap, meatMap, vegetableMap } from "../../../shared/menuMapper"
 
 type Props = {
     id: string | null;

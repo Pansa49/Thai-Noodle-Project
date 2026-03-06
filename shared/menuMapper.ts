@@ -1,4 +1,4 @@
-import data from "../../menudb.json"
+import data from "../customer-app/menudb.json"
 
 interface OptionItem {
     id: number;

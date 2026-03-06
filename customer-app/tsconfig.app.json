@@ -30,6 +30,7 @@
   },
   "include": [
     "src",
-    "../shared/menuDetail.ts"
+    "../shared/menuDetail.ts",
+    "../shared/menuMapper.ts"
   ]
 }

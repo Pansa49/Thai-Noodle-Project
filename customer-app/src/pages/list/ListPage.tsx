@@ -4,7 +4,7 @@ import { useState } from "react";
 import { PopUp } from "../../components/PopUP";
 import type { Menu } from "../../../../shared/menuDetail";
 import { AddItemDb } from "../../api/fetchData";
-import { noodleMap, meatMap, vegetableMap } from "../../mappers/menuMapper";
+import { noodleMap, meatMap, vegetableMap } from "../../../../shared/menuMapper";
 
 export function ListPage() {
 
