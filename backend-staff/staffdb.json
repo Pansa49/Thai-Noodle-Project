@@ -1,33 +1,54 @@
 {
-    "staff-data": [
-        {
-            "id": "001",
-            "name": "Employee1",
-            "mail": "employee_1@thainoodle.com",
-            "password": "Employee_1"
-        },
-        {
-            "id": "002",
-            "name": "Employee2",
-            "mail": "employee_2@thainoodle.com",
-            "password": "Employee_2"
-        }
-    ],
-    "time-log": [],
-    "table-pos": [
-        {
-            "id": 1,
-            "name": "1",
-            "x": 40,
-            "y": 40,
-            "status": "available"
-        },
-        {
-            "id": 2,
-            "name": "2",
-            "x": 160,
-            "y": 40,
-            "status": "available"
-        }
-    ]
+  "staff-data": [
+    {
+      "id": "001",
+      "name": "Employee1",
+      "mail": "employee_1@thainoodle.com",
+      "password": "Employee_1"
+    },
+    {
+      "id": "002",
+      "name": "Employee2",
+      "mail": "employee_2@thainoodle.com",
+      "password": "Employee_2"
+    }
+  ],
+  "time-log": [],
+  "table-pos": [
+    {
+      "id": 1,
+      "name": "1",
+      "x": 20,
+      "y": 20,
+      "status": "available"
+    },
+    {
+      "id": 2,
+      "name": "2",
+      "x": 140,
+      "y": 20,
+      "status": "available"
+    },
+    {
+      "id": 3,
+      "name": "3",
+      "x": 260,
+      "y": 20,
+      "status": "available"
+    },
+    {
+      "id": 4,
+      "name": "4",
+      "x": 380,
+      "y": 20,
+      "status": "available"
+    },
+    {
+      "id": 5,
+      "name": "5",
+      "x": 500,
+      "y": 20,
+      "status": "available"
+    }
+  ]
 }
