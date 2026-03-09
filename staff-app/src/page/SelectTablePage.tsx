@@ -309,6 +309,13 @@ export function SelectedTable() {
                                     >
                                         จองโต๊ะ
                                     </button>
+
+                                    <button
+                                        onClick={() => setSelectedTable(null)}
+                                        className="px-4 py-2 bg-gray-300 rounded-lg"
+                                    >
+                                        จ่ายเงิน
+                                    </button>
                                 </>
                             )}
                         </div>
