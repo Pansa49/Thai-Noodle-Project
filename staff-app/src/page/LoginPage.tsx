@@ -34,7 +34,7 @@ export function LoginPage() {
             updateData(user.id, user.name);
             console.log("Login success", user);
 
-            navigate("/role");
+            navigate("/selected_table");
         }
         catch (err) {
             console.log("LOGIN ERROR:", err);

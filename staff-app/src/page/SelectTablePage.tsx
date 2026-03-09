@@ -20,7 +20,7 @@ const PADDING = 20;
 const GRID_SIZE = 20;
 const tableSize = window.innerWidth < 768 ? 70 : 100;
 
-export function CashierPage() {
+export function SelectedTable() {
     const [tables, setTables] = useState<Table[]>([]);
     const [isEditMode, setIsEditMode] = useState(false);
     const [tableCount, setTableCount] = useState(2);
