@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router-dom";
-import type { CartItem } from "../../../shared/menuDetail";
-import { noodleMap, meatMap, vegetableMap } from "../../../shared/menuMapper";
+import type { CartItem } from "../../../../shared/menuDetail";
+import { noodleMap, meatMap, vegetableMap } from "../../../../shared/menuMapper";
 
 export function PayPage() {
     const orders = useLoaderData() as CartItem[];

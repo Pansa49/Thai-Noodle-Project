@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { timeLog } from "../api/fetchData";
-import { useUserContext } from "../hook/use-user-context";
+import { timeLog } from "../../api/fetchData";
+import { useUserContext } from "../../hook/use-user-context";
 
 export function RolePage() {
     const navigate = useNavigate();
