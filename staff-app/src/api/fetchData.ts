@@ -33,3 +33,28 @@ export async function getOrders(tableNo: string) {
         throw error;
     }
 }
+
+export async function getTables() {
+    const res = await axios.get(`${BASE_URL_TEST}/table-pos`);
+    return res.data;
+}
+
+export async function createTables(tables: any[]) {
+    for (const table of tables) {
+        await axios.post(`${BASE_URL_TEST}/table-pos`, table);
+    }
+}
+
+export async function updateTable(table: any) {
+    await axios.put(`${BASE_URL_TEST}/table-pos/${table.id}`, table);
+}
+
+export async function saveTablesLayout(tables: any[]) {
+    for (const table of tables) {
+        await updateTable(table);
+    }
+}
+
+export async function deleteTables(tableId: string) {
+    await axios.delete(`${BASE_URL_TEST}/table-pos/${tableId}`);
+}
