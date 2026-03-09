@@ -13,5 +13,21 @@
             "password": "Employee_2"
         }
     ],
-    "time-log": []
+    "time-log": [],
+    "table-pos": [
+        {
+            "id": 1,
+            "name": "1",
+            "x": 40,
+            "y": 40,
+            "status": "available"
+        },
+        {
+            "id": 2,
+            "name": "2",
+            "x": 160,
+            "y": 40,
+            "status": "available"
+        }
+    ]
 }
