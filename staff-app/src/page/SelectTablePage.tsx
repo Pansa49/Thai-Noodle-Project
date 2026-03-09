@@ -1,11 +1,10 @@
-import {
-    DndContext,
-    useDraggable,
-} from "@dnd-kit/core";
+import { useState, useEffect } from "react";
+import { getTables, createTables, saveTablesLayout, deleteTables } from "../api/fetchData";
 
+
+import { DndContext, useDraggable, } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
 
 interface Table {
@@ -29,7 +28,37 @@ export function SelectedTable() {
     const [qrValue, setQrValue] = useState("");
     const [showQR, setShowQR] = useState(false);
 
-    const generateTables = () => {
+    useEffect(() => {
+        loadTables();
+    }, []);
+
+    const saveLayout = async () => {
+        await saveTablesLayout(tables);
+    };
+
+    const loadTables = async () => {
+        const data = await getTables();
+        setTables(data);
+    };
+
+    const resetLayout = async () => {
+        const data = await getTables();
+
+        for (const table of data) {
+            await deleteTables(table.id);
+        }
+
+        setTables([]);
+    };
+
+    const generateTables = async () => {
+
+        const oldTables = await getTables();
+
+        for (const table of oldTables) {
+            await deleteTables(table.id);
+        }
+
         const container = document.getElementById("table-container");
         if (!container) return;
 
@@ -38,7 +67,6 @@ export function SelectedTable() {
         const height = rect.height;
 
         const newTables: Table[] = [];
-
         const tableSize = width < 768 ? 70 : 100;
         const GAP = 14;
 
@@ -62,17 +90,15 @@ export function SelectedTable() {
                 status: "available",
             });
         }
-
         setTables(newTables);
+
+        await createTables(newTables);
     }
 
-    const generateQRCode = (tableNo: number) => {
-
-        const BASE_URL = "https://thai-noodle-project-customer.vercel.app"
-        const url = `${BASE_URL}/menu/${tableNo}`;
-        setQrValue(url);
-        setShowQR(true);
-    }
+    const getTableQR = (tableId: number) => {
+        const BASE_URL = "https://thai-noodle-project-customer.vercel.app";
+        return `${BASE_URL}/menu/${tableId}`;
+    };
 
     const handleDragEnd = (event: DragEndEvent) => {
         if (!isEditMode) return;
@@ -136,10 +162,22 @@ export function SelectedTable() {
                 </button>
 
                 <button
-                    onClick={() => setIsEditMode(!isEditMode)}
+                    onClick={async () => {
+                        if (isEditMode) {
+                            await saveLayout();
+                        }
+                        setIsEditMode(!isEditMode);
+                    }}
                     className={`px-5 py-2 rounded-lg text-white ${isEditMode ? "bg-red-500" : "bg-blue-600"}`}
                 >
                     {isEditMode ? "เสร็จสิ้น" : "แก้ไขตำแหน่ง"}
+                </button>
+
+                <button
+                    onClick={resetLayout}
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg"
+                >
+                    Reset
                 </button>
             </div>
 
@@ -200,6 +238,12 @@ export function SelectedTable() {
                                 : `ยืนยันการจองโต๊ะ ${selectedTable.name}`}
                         </h2>
 
+                        {selectedTable.status === "reserved" && (
+                            <div className="flex justify-center mb-4">
+                                <QRCodeSVG value={getTableQR(selectedTable.id)} size={180} />
+                            </div>
+                        )}
+
                         <div className="flex justify-end gap-3">
 
                             {/* ถ้าโต๊ะถูกจองแล้ว → แสดง ปุ่มปิด ปุ่มยกเลิกการจอง*/}
@@ -213,14 +257,21 @@ export function SelectedTable() {
                                         ปิด
                                     </button>
                                     <button
-                                        onClick={() => {
+                                        onClick={async () => {
+
+                                            const updated: Table = {
+                                                ...selectedTable,
+                                                status: "available"
+                                            };
+
                                             setTables((prev) =>
                                                 prev.map((t) =>
-                                                    t.id === selectedTable.id
-                                                        ? { ...t, status: "available" }
-                                                        : t
+                                                    t.id === selectedTable.id ? updated : t
                                                 )
                                             );
+
+                                            await saveTablesLayout([updated]);
+
                                             setSelectedTable(null);
                                         }}
                                         className="px-4 py-2 bg-red-500 text-white rounded-lg"
@@ -239,18 +290,22 @@ export function SelectedTable() {
                                     </button>
 
                                     <button
-                                        onClick={() => {
-                                            generateQRCode(selectedTable.id)
-
+                                        onClick={async () => {
+                                            const updated: Table = {
+                                                ...selectedTable,
+                                                status: "reserved"
+                                            };
 
                                             setTables((prev) =>
                                                 prev.map((t) =>
-                                                    t.id === selectedTable.id
-                                                        ? { ...t, status: "reserved" }
-                                                        : t
+                                                    t.id === selectedTable.id ? updated : t
                                                 )
                                             );
-                                            setSelectedTable(null);
+
+                                            await saveTablesLayout([updated]);
+
+                                            // ⭐ อัปเดต selectedTable แทนการปิด
+                                            setSelectedTable(updated);
                                         }}
                                         className="px-4 py-2 bg-green-600 text-white rounded-lg"
                                     >
@@ -259,33 +314,6 @@ export function SelectedTable() {
                                 </>
                             )}
                         </div>
-                    </div>
-                </div>
-            )}
-
-            {showQR && (
-                <div
-                    className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-                    onClick={() => setShowQR(false)}
-                >
-                    <div
-                        className="bg-white rounded-xl p-6 w-80 shadow-xl text-center"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <h2 className="text-xl font-bold mb-4">
-                            QR Code โต๊ะ {qrValue.split("/").pop()}
-                        </h2>
-
-                        <div className="flex justify-center mb-4">
-                            <QRCodeSVG value={qrValue} size={200} />
-                        </div>
-
-                        <button
-                            onClick={() => setShowQR(false)}
-                            className="px-4 py-2 bg-gray-400 text-white rounded-lg"
-                        >
-                            ปิด
-                        </button>
                     </div>
                 </div>
             )}
@@ -321,7 +349,7 @@ border-2 border-black transition-colors duration-200
 ${isEditMode
                     ? "bg-yellow-500 cursor-grab"
                     : table.status === "reserved"
-                        ? "bg-red-500 cursor-not-allowed"
+                        ? "bg-red-500 cursor-pointer hover:bg-red-600"
                         : "bg-green-500 hover:bg-blue-500 cursor-pointer"
                 }`}
         >
