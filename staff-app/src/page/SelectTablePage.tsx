@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { getTables, createTables, saveTablesLayout, deleteTables } from "../api/fetchData";
 
-
 import { DndContext, useDraggable, } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
@@ -25,15 +24,15 @@ export function SelectedTable() {
     const [tableCount, setTableCount] = useState(2);
     const [selectedTable, setSelectedTable] = useState<Table | null>(null);
 
-    const [qrValue, setQrValue] = useState("");
-    const [showQR, setShowQR] = useState(false);
-
     useEffect(() => {
         loadTables();
     }, []);
 
     const saveLayout = async () => {
-        await saveTablesLayout(tables);
+        if (isEditMode) {
+            await saveTablesLayout(tables);
+        }
+        setIsEditMode(!isEditMode);
     };
 
     const loadTables = async () => {
@@ -100,6 +99,42 @@ export function SelectedTable() {
         return `${BASE_URL}/menu/${tableId}`;
     };
 
+    const handleReservation = async () => {
+        if (!selectedTable) return;
+
+        const updated: Table = {
+            ...selectedTable,
+            status: "reserved"
+        };
+
+        setTables((prev) =>
+            prev.map((t) =>
+                t.id === selectedTable.id ? updated : t
+            )
+        );
+
+        await saveTablesLayout([updated]);
+        setSelectedTable(updated);
+    };
+
+    const handleCancelReservation = async () => {
+        if (!selectedTable) return;
+
+        const updated: Table = {
+            ...selectedTable,
+            status: "available"
+        };
+
+        setTables((prev) =>
+            prev.map((t) =>
+                t.id === selectedTable.id ? updated : t
+            )
+        );
+
+        await saveTablesLayout([updated]);
+        setSelectedTable(null);
+    };
+
     const handleDragEnd = (event: DragEndEvent) => {
         if (!isEditMode) return;
 
@@ -162,12 +197,7 @@ export function SelectedTable() {
                 </button>
 
                 <button
-                    onClick={async () => {
-                        if (isEditMode) {
-                            await saveLayout();
-                        }
-                        setIsEditMode(!isEditMode);
-                    }}
+                    onClick={saveLayout}
                     className={`px-5 py-2 rounded-lg text-white ${isEditMode ? "bg-red-500" : "bg-blue-600"}`}
                 >
                     {isEditMode ? "เสร็จสิ้น" : "แก้ไขตำแหน่ง"}
@@ -257,23 +287,7 @@ export function SelectedTable() {
                                         ปิด
                                     </button>
                                     <button
-                                        onClick={async () => {
-
-                                            const updated: Table = {
-                                                ...selectedTable,
-                                                status: "available"
-                                            };
-
-                                            setTables((prev) =>
-                                                prev.map((t) =>
-                                                    t.id === selectedTable.id ? updated : t
-                                                )
-                                            );
-
-                                            await saveTablesLayout([updated]);
-
-                                            setSelectedTable(null);
-                                        }}
+                                        onClick={handleCancelReservation}
                                         className="px-4 py-2 bg-red-500 text-white rounded-lg"
                                     >
                                         ยกเลิกการจอง
@@ -290,23 +304,7 @@ export function SelectedTable() {
                                     </button>
 
                                     <button
-                                        onClick={async () => {
-                                            const updated: Table = {
-                                                ...selectedTable,
-                                                status: "reserved"
-                                            };
-
-                                            setTables((prev) =>
-                                                prev.map((t) =>
-                                                    t.id === selectedTable.id ? updated : t
-                                                )
-                                            );
-
-                                            await saveTablesLayout([updated]);
-
-                                            // ⭐ อัปเดต selectedTable แทนการปิด
-                                            setSelectedTable(updated);
-                                        }}
+                                        onClick={handleReservation}
                                         className="px-4 py-2 bg-green-600 text-white rounded-lg"
                                     >
                                         จองโต๊ะ
