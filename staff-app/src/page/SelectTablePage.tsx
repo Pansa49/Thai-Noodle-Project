@@ -261,7 +261,7 @@ export function SelectedTable() {
                     className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
                     onClick={() => setSelectedTable(null)}
                 >
-                    <div className="bg-white rounded-xl p-6 w-80 shadow-xl">
+                    <div className="relative bg-white rounded-xl p-6 w-80 shadow-xl">
                         <h2 className="text-xl font-bold mb-4 text-center">
                             {selectedTable.status === "reserved"
                                 ? `โต๊ะ ${selectedTable.name} ถูกจองแล้ว`
@@ -274,7 +274,7 @@ export function SelectedTable() {
                             </div>
                         )}
 
-                        <div className="flex justify-end gap-3">
+                        <div className="flex justify-center-safe gap-3">
 
                             {/* ถ้าโต๊ะถูกจองแล้ว → แสดง ปุ่มปิด ปุ่มยกเลิกการจอง*/}
                             {selectedTable.status === "reserved" ? (
@@ -282,9 +282,9 @@ export function SelectedTable() {
 
                                     <button
                                         onClick={() => setSelectedTable(null)}
-                                        className="px-4 py-2 bg-gray-300 rounded-lg"
+                                        className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-red-500 text-white hover:bg-red-600"
                                     >
-                                        ปิด
+                                        ✕
                                     </button>
                                     <button
                                         onClick={handleCancelReservation}
@@ -292,15 +292,22 @@ export function SelectedTable() {
                                     >
                                         ยกเลิกการจอง
                                     </button>
+
+                                    <button
+                                        onClick={() => setSelectedTable(null)}
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+                                    >
+                                        จ่ายเงิน
+                                    </button>
                                 </>
                             ) : (
                                 <>
                                     {/* ถ้ายังไม่จอง → แสดง ปุ่มปิด ปุ่มจองโต๊ะ*/}
                                     <button
                                         onClick={() => setSelectedTable(null)}
-                                        className="px-4 py-2 bg-gray-300 rounded-lg"
+                                        className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-red-500 text-white hover:bg-red-600"
                                     >
-                                        ปิด
+                                        ✕
                                     </button>
 
                                     <button
@@ -308,13 +315,6 @@ export function SelectedTable() {
                                         className="px-4 py-2 bg-green-600 text-white rounded-lg"
                                     >
                                         จองโต๊ะ
-                                    </button>
-
-                                    <button
-                                        onClick={() => setSelectedTable(null)}
-                                        className="px-4 py-2 bg-gray-300 rounded-lg"
-                                    >
-                                        จ่ายเงิน
                                     </button>
                                 </>
                             )}
@@ -355,7 +355,7 @@ ${isEditMode
                     ? "bg-yellow-500 cursor-grab"
                     : table.status === "reserved"
                         ? "bg-red-500 cursor-pointer hover:bg-red-600"
-                        : "bg-green-500 hover:bg-blue-500 cursor-pointer"
+                        : "bg-green-500 hover:bg-green-600 cursor-pointer"
                 }`}
         >
             <div>{table.name}</div>
