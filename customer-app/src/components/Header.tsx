@@ -4,16 +4,16 @@ import { useCartContext } from "../hook/use-cart-context";
 export function Header() {
 
     const { items } = useCartContext()
-    const { tableNo } = useParams();
+    const { tableNo, sessionId } = useParams<{ tableNo: string; sessionId: string }>();
 
-    if (!tableNo) return null
+    if (!tableNo || !sessionId) return null
 
     return (
         <header className="w-full border-b bg-white">
             <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-center">
                 <nav className="flex gap-5 text-smmd:text-base md:gap-12text-gray-600 font-medium">
                     <NavLink
-                        to={`/menu/${tableNo}`}
+                        to={`/menu/${tableNo}/${sessionId}`}
                         className={({ isActive }) =>
                             isActive
                                 ? "bg-blue-500 text-white rounded-md"
@@ -24,7 +24,7 @@ export function Header() {
                     </NavLink>
 
                     <NavLink
-                        to={`list/${tableNo}`}
+                        to={`list/${tableNo}/${sessionId}`}
                         className={({ isActive }) =>
                             isActive
                                 ? "bg-blue-500 text-white rounded-md relative cursor-pointer"
@@ -41,7 +41,7 @@ export function Header() {
                     </NavLink>
 
                     <NavLink
-                        to={`bill/${tableNo}`}
+                        to={`bill/${tableNo}/${sessionId}`}
                         className={({ isActive }) =>
                             isActive
                                 ? "bg-blue-500 text-white rounded-md"

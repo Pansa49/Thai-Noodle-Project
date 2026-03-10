@@ -16,7 +16,7 @@ export function ListPage() {
     const [selectedSoup, setSelectedSoup] = useState<Menu | null>(null);
     const [popupId, setPopupId] = useState<string>("");
 
-    const { tableNo } = useParams();
+    const { tableNo, sessionId } = useParams<{ tableNo: string; sessionId: string }>();
 
     if (items.length === 0) {
         return (
@@ -126,8 +126,8 @@ export function ListPage() {
                     <button
                         className="px-10 py-3 rounded-xl bg-blue-500 text-white font-medium hover:bg-blue-600 active:scale-95 transition"
                         onClick={() => {
-                            if (!tableNo) return;
-                            AddItemDb(items, tableNo, "ordering", userID);
+                            if (!tableNo || !sessionId) return;
+                            AddItemDb(items, tableNo, sessionId, "ordering", userID);
                             clearItems();
                         }}
                     >

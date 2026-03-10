@@ -9,7 +9,7 @@ export function MenuPage() {
     const [openPopup, setOpenPopup] = useState(false);
     const [selectedSoup, setSelectedSoup] = useState<Menu | null>(null);
 
-    const { tableNo } = useParams();
+    const { tableNo } = useParams<{ tableNo: string }>();
 
     return (
         <div className="container py-12 space-y-8 px-10">

@@ -1,8 +1,9 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import type { CartItem } from "../../../../shared/menuDetail";
 import { noodleMap, meatMap, vegetableMap } from "../../../../shared/menuMapper";
 
 export function BillPage() {
+    const { tableNo, sessionId } = useParams<{ tableNo: string; sessionId: string }>();
     const orders = useLoaderData() as CartItem[];
 
     const subTotal = orders.reduce(
@@ -37,7 +38,7 @@ export function BillPage() {
                     <p className="text-xs text-gray-500">
                         {new Date().toLocaleString()}
                     </p>
-                    <p className="text-xs mt-1">BILL NO: #{Math.floor(Math.random() * 99999)}</p>
+                    <p className="text-xs mt-1">BILL NO: #{tableNo}{sessionId}</p>
                 </div>
 
                 {/* Items Header */}

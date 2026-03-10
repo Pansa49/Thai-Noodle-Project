@@ -16,20 +16,20 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="menu/:tableNo" replace />,
+        element: <Navigate to="menu/:tableNo/:sessionId" replace />,
       },
       {
-        path: "menu/:tableNo",
+        path: "menu/:tableNo/:sessionId",
         element: <MenuPage />,
         loader: menuLoader,
       },
       {
-        path: "list/:tableNo",
+        path: "list/:tableNo/:sessionId",
         element: <ListPage />,
         loader: listLoader,
       },
       {
-        path: "bill/:tableNo",
+        path: "bill/:tableNo/:sessionId",
         element: <BillPage />,
         loader: billLoader,
       },
@@ -38,12 +38,10 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-
   return (
     <div className="inset-0 bg-black/10">
       <RouterProvider router={router} />
     </div>
-
   )
 }
 
