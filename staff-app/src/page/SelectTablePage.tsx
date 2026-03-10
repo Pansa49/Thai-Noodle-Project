@@ -11,7 +11,7 @@ interface Table {
     name: string;
     x: number;
     y: number;
-    status?: "available" | "reserved";
+    status?: "available" | "occupied";
 }
 
 const PADDING = 20;
@@ -104,7 +104,7 @@ export function SelectedTable() {
 
         const updated: Table = {
             ...selectedTable,
-            status: "reserved"
+            status: "occupied"
         };
 
         setTables((prev) =>
@@ -173,6 +173,25 @@ export function SelectedTable() {
             })
         );
     }
+
+    const handlePay = async () => {
+        if (!selectedTable) return;
+
+        const updated: Table = {
+            ...selectedTable,
+            status: "available"
+        };
+
+        setTables((prev) =>
+            prev.map((t) =>
+                t.id === selectedTable.id ? updated : t
+            )
+        );
+
+        await saveTablesLayout([updated]);
+
+        setSelectedTable(null);
+    };
 
     return (
         <div className="p-10 space-y-6">
@@ -263,12 +282,12 @@ export function SelectedTable() {
                 >
                     <div className="relative bg-white rounded-xl p-6 w-80 shadow-xl">
                         <h2 className="text-xl font-bold mb-4 text-center">
-                            {selectedTable.status === "reserved"
+                            {selectedTable.status === "occupied"
                                 ? `โต๊ะ ${selectedTable.name} ถูกจองแล้ว`
                                 : `ยืนยันการจองโต๊ะ ${selectedTable.name}`}
                         </h2>
 
-                        {selectedTable.status === "reserved" && (
+                        {selectedTable.status === "occupied" && (
                             <div className="flex justify-center mb-4">
                                 <QRCodeSVG value={getTableQR(selectedTable.id)} size={180} />
                             </div>
@@ -277,7 +296,7 @@ export function SelectedTable() {
                         <div className="flex justify-center-safe gap-3">
 
                             {/* ถ้าโต๊ะถูกจองแล้ว → แสดง ปุ่มปิด ปุ่มยกเลิกการจอง*/}
-                            {selectedTable.status === "reserved" ? (
+                            {selectedTable.status === "occupied" ? (
                                 <>
 
                                     <button
@@ -294,7 +313,7 @@ export function SelectedTable() {
                                     </button>
 
                                     <button
-                                        onClick={() => setSelectedTable(null)}
+                                        onClick={handlePay}
                                         className="px-4 py-2 bg-blue-600 text-white rounded-lg"
                                     >
                                         จ่ายเงิน
@@ -353,7 +372,7 @@ text-white font-semibold shadow-lg select-none
 border-2 border-black transition-colors duration-200
 ${isEditMode
                     ? "bg-yellow-500 cursor-grab"
-                    : table.status === "reserved"
+                    : table.status === "occupied"
                         ? "bg-red-500 cursor-pointer hover:bg-red-600"
                         : "bg-green-500 hover:bg-green-600 cursor-pointer"
                 }`}
