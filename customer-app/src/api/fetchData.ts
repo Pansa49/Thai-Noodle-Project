@@ -27,7 +27,7 @@ export async function AddItemDb(orders: CartItem[], tableNo: string, sessionId: 
 
 export async function getOrdersDb(tableNo: string, sessionId: string) {
     try {
-        const response = await axios.get(`${BASE_URL}/orders?tableNo=${tableNo}&status=ordering`);
+        const response = await axios.get(`${BASE_URL}/orders?tableNo=${tableNo}&sessionId=${sessionId}&status=ordering`);
         console.log("Fetched orders:", response.data);
         return response.data;
     }
