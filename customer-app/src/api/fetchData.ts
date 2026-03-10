@@ -4,13 +4,14 @@ import type { CartItem } from "../../../shared/menuDetail";
 const BASE_URL = "https://thai-noodle-lab-customer-db-production.up.railway.app"
 //const TEST_URL = "http://localhost:3001"
 
-export async function AddItemDb(orders: CartItem[], tableNo: string, status: string, userId: string) {
+export async function AddItemDb(orders: CartItem[], tableNo: string, sessionId: string, status: string, userId: string) {
     for (const order of orders) {
         try {
             const orderData = {
                 userId: userId,
                 ...order,
                 tableNo: tableNo,
+                sessionId: sessionId,
                 status: status
             };
             await axios.post(
@@ -24,7 +25,7 @@ export async function AddItemDb(orders: CartItem[], tableNo: string, status: str
     }
 };
 
-export async function getOrdersDb(tableNo: string) {
+export async function getOrdersDb(tableNo: string, sessionId: string) {
     try {
         const response = await axios.get(`${BASE_URL}/orders?tableNo=${tableNo}&status=ordering`);
         console.log("Fetched orders:", response.data);
