@@ -50,5 +50,7 @@
       "y": 20,
       "status": "available"
     }
-  ]
+  ],
+  "orders": [],
+  "orderSessions": []
 }
