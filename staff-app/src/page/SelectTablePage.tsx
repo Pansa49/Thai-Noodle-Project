@@ -46,8 +46,10 @@ export function SelectedTable() {
     const [isEditMode, setIsEditMode] = useState(false);
     const [tableCount, setTableCount] = useState(2);
     const [selectedTable, setSelectedTable] = useState<Table | null>(null);
-    const [sessionId, setSessionId] = useState<string | null>(null);
-    const [orderId, setOrderId] = useState<number | null>(null);
+
+    const [tableSessions, setTableSessions] = useState<
+        Record<number, { orderId: number; sessionId: string }>
+    >({});
 
     useEffect(() => {
         loadTables();
@@ -119,9 +121,9 @@ export function SelectedTable() {
         await createTables(newTables);
     }
 
-    const getTableQR = (sessionId: string) => {
+    const getTableQR = (sessionId: string, tableId: number) => {
         const BASE_URL = "https://thai-noodle-project-customer.vercel.app";
-        return `${BASE_URL}/menu/${sessionId}`;
+        return `${BASE_URL}/menu/${tableId}/${sessionId}`;
     };
 
     const handleReservation = async () => {
@@ -150,13 +152,25 @@ export function SelectedTable() {
             orderId: order.id
         });
 
-        setOrderId(order.id);
-        setSessionId(session.id);
+        setTableSessions((prev) => ({
+            ...prev,
+            [selectedTable.id]: {
+                orderId: order.id,
+                sessionId: session.id
+            }
+        }));
         setSelectedTable(updated);
     };
 
-    const handleCancelReservation = async () => {
+    const handlePay = async () => {
         if (!selectedTable) return;
+
+        const sessionData = tableSessions[selectedTable.id];
+
+        if (!selectedTable || !sessionData) return;
+
+        await closeOrder(sessionData.orderId);
+        await closeSession(sessionData.sessionId);
 
         const updated: Table = {
             ...selectedTable,
@@ -170,6 +184,12 @@ export function SelectedTable() {
         );
 
         await saveTablesLayout([updated]);
+
+        setTableSessions((prev) => {
+            const newSessions = { ...prev };
+            delete newSessions[selectedTable.id];
+            return newSessions;
+        });
         setSelectedTable(null);
     };
 
@@ -211,30 +231,6 @@ export function SelectedTable() {
             })
         );
     }
-
-    const handlePay = async () => {
-        if (!selectedTable || !sessionId || !orderId) return;
-
-        await closeOrder(orderId);
-        await closeSession(sessionId);
-
-        const updated: Table = {
-            ...selectedTable,
-            status: "available"
-        };
-
-        setTables((prev) =>
-            prev.map((t) =>
-                t.id === selectedTable.id ? updated : t
-            )
-        );
-
-        await saveTablesLayout([updated]);
-
-        setSessionId(null);
-        setOrderId(null);
-        setSelectedTable(null);
-    };
 
     return (
         <div className="p-10 space-y-6">
@@ -330,11 +326,23 @@ export function SelectedTable() {
                                 : `ยืนยันการจองโต๊ะ ${selectedTable.name}`}
                         </h2>
 
-                        {selectedTable.status === "occupied" && sessionId && (
-                            <div className="flex justify-center mb-4">
-                                <QRCodeSVG value={getTableQR(sessionId)} size={180} />
-                            </div>
-                        )}
+                        {selectedTable.status === "occupied" &&
+                            tableSessions[selectedTable.id]?.sessionId && (
+                                <div className="flex flex-col items-center mb-4">
+                                    <QRCodeSVG
+                                        value={getTableQR(tableSessions[selectedTable.id].sessionId, selectedTable.id)}
+                                        size={180}
+                                    />
+
+                                    <p className="mt-3 text-lg font-bold">
+                                        โต๊ะ {selectedTable.name}
+                                    </p>
+
+                                    <p className="text-sm text-gray-500">
+                                        สแกนเพื่อสั่งอาหาร
+                                    </p>
+                                </div>
+                            )}
 
                         <div className="flex justify-center-safe gap-3">
 
@@ -348,18 +356,12 @@ export function SelectedTable() {
                                     >
                                         ✕
                                     </button>
-                                    <button
-                                        onClick={handleCancelReservation}
-                                        className="px-4 py-2 bg-red-500 text-white rounded-lg"
-                                    >
-                                        ยกเลิกการจอง
-                                    </button>
 
                                     <button
                                         onClick={handlePay}
                                         className="px-4 py-2 bg-blue-600 text-white rounded-lg"
                                     >
-                                        จ่ายเงิน
+                                        ปิดโต๊ะ / จ่ายเงิน
                                     </button>
                                 </>
                             ) : (
