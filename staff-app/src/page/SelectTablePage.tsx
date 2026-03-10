@@ -1,5 +1,14 @@
-import { useState, useEffect } from "react";
-import { getTables, createTables, saveTablesLayout, deleteTables } from "../api/fetchData";
+import { useState, useEffect } from "react"
+import {
+    getTables,
+    createTables,
+    saveTablesLayout,
+    deleteTables,
+    createOrder,
+    createSession,
+    closeOrder,
+    closeSession
+} from "../api/fetchData";
 
 import { DndContext, useDraggable, } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
@@ -14,6 +23,20 @@ interface Table {
     status?: "available" | "occupied";
 }
 
+interface Order {
+    id: number;
+    tableId: number;
+    status: "ordering" | "paid";
+    createdAt: string;
+}
+
+interface OrderSession {
+    id: string;
+    tableId: number;
+    orderId: number;
+    active: boolean;
+}
+
 const PADDING = 20;
 const GRID_SIZE = 20;
 const tableSize = window.innerWidth < 768 ? 70 : 100;
@@ -23,6 +46,8 @@ export function SelectedTable() {
     const [isEditMode, setIsEditMode] = useState(false);
     const [tableCount, setTableCount] = useState(2);
     const [selectedTable, setSelectedTable] = useState<Table | null>(null);
+    const [sessionId, setSessionId] = useState<string | null>(null);
+    const [orderId, setOrderId] = useState<number | null>(null);
 
     useEffect(() => {
         loadTables();
@@ -94,9 +119,9 @@ export function SelectedTable() {
         await createTables(newTables);
     }
 
-    const getTableQR = (tableId: number) => {
+    const getTableQR = (sessionId: string) => {
         const BASE_URL = "https://thai-noodle-project-customer.vercel.app";
-        return `${BASE_URL}/menu/${tableId}`;
+        return `${BASE_URL}/menu/${sessionId}`;
     };
 
     const handleReservation = async () => {
@@ -114,6 +139,19 @@ export function SelectedTable() {
         );
 
         await saveTablesLayout([updated]);
+
+        const order: Order = await createOrder({
+            tableId: selectedTable.id
+
+        });
+
+        const session: OrderSession = await createSession({
+            tableId: selectedTable.id,
+            orderId: order.id
+        });
+
+        setOrderId(order.id);
+        setSessionId(session.id);
         setSelectedTable(updated);
     };
 
@@ -175,7 +213,10 @@ export function SelectedTable() {
     }
 
     const handlePay = async () => {
-        if (!selectedTable) return;
+        if (!selectedTable || !sessionId || !orderId) return;
+
+        await closeOrder(orderId);
+        await closeSession(sessionId);
 
         const updated: Table = {
             ...selectedTable,
@@ -190,6 +231,8 @@ export function SelectedTable() {
 
         await saveTablesLayout([updated]);
 
+        setSessionId(null);
+        setOrderId(null);
         setSelectedTable(null);
     };
 
@@ -287,9 +330,9 @@ export function SelectedTable() {
                                 : `ยืนยันการจองโต๊ะ ${selectedTable.name}`}
                         </h2>
 
-                        {selectedTable.status === "occupied" && (
+                        {selectedTable.status === "occupied" && sessionId && (
                             <div className="flex justify-center mb-4">
-                                <QRCodeSVG value={getTableQR(selectedTable.id)} size={180} />
+                                <QRCodeSVG value={getTableQR(sessionId)} size={180} />
                             </div>
                         )}
 

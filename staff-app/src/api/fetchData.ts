@@ -58,3 +58,39 @@ export async function saveTablesLayout(tables: any[]) {
 export async function deleteTables(tableId: string) {
     await axios.delete(`${BASE_URL}/table-pos/${tableId}`);
 }
+
+export async function createOrder(data: { tableId: number }) {
+    const response = await axios.post(`${BASE_URL}/orders`, {
+        tableId: data.tableId,
+        status: "ordering",
+        createdAt: new Date().toISOString()
+    });
+
+    return response.data;
+}
+
+export async function createSession(data: { tableId: number; orderId: number }) {
+    const response = await axios.post(`${BASE_URL}/orderSessions`, {
+        tableId: data.tableId,
+        orderId: data.orderId,
+        active: true
+    });
+
+    return response.data;
+}
+
+export async function closeOrder(orderId: number) {
+    const response = await axios.patch(`${BASE_URL}/orders/${orderId}`, {
+        status: "paid"
+    });
+
+    return response.data;
+}
+
+export async function closeSession(sessionId: string) {
+    const response = await axios.patch(`${BASE_URL}/orderSessions/${sessionId}`, {
+        active: false
+    });
+
+    return response.data;
+}
