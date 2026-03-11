@@ -105,7 +105,7 @@ export function BillPage() {
                     className="mt-6 w-full bg-black text-white py-3 rounded hover:bg-gray-800 active:scale-95 transition"
                 // onClick={() => setShowQR(true)}
                 >
-                    PAY NOW
+                    เรียกพนักงาน
                 </button>
             </div>
         </div>

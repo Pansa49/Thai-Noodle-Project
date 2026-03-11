@@ -6,6 +6,7 @@ import { ListPage } from "./pages/list/ListPage.tsx"
 import { listLoader } from "./pages/list/listLoader.ts"
 import { BillPage } from "./pages/bill/BillPage.tsx"
 import { billLoader } from "./pages/bill/billLoader.ts"
+import { ClosePage } from "./pages/close/ClosePage.tsx"
 
 import Root from "./pages/Root"
 
@@ -34,7 +35,12 @@ const router = createBrowserRouter([
         loader: billLoader,
       },
     ]
+  },
+  {
+    path: "/close",
+    element: <ClosePage />,
   }
+
 ])
 
 function App() {
