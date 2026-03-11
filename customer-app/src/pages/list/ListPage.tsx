@@ -10,7 +10,7 @@ export function ListPage() {
 
     const menus = useLoaderData() as Menu[];
 
-    const { userID, items, clearItems, removeItem } = useCartContext();
+    const { items, clearItems, removeItem } = useCartContext();
 
     const [openPopup, setOpenPopup] = useState(false);
     const [selectedSoup, setSelectedSoup] = useState<Menu | null>(null);

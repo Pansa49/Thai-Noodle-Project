@@ -2,7 +2,6 @@ import { createContext, useState, useEffect } from "react";
 import type { CartItem } from "../../../shared/menuDetail";
 
 type CartContextType = {
-    userID: string;
     id?: number;
     items: CartItem[];
 
@@ -18,22 +17,10 @@ export const CartContext = createContext<CartContextType | null>(null);
 export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const [items, setItems] = useState<CartItem[]>([]);
-    const [userID, setUserID] = useState("");
 
     useEffect(() => {
         console.log({ items: items })
     }, [items])
-
-    useEffect(() => {
-        let id = localStorage.getItem("userId");
-
-        if (!id) {
-            id = crypto.randomUUID();
-            localStorage.setItem("userId", id);
-        }
-
-        setUserID(id);
-    }, []);
 
     const saveItem = (item: CartItem) => {
         setItems((prev) => [...prev, item]);
@@ -64,7 +51,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return (
         <CartContext.Provider
             value={{
-                userID, items,
+                items,
                 saveItem, removeItem, updateItem, clearItems,
             }}
         >
