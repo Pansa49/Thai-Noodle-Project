@@ -1,5 +1,8 @@
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
 import { useCartContext } from "../hook/use-cart-context";
+import { useEffect } from "react";
+import { getOrderSessionStatus } from "../../../shared/api/fetchData"
+
 
 export function Header() {
 
@@ -7,6 +10,23 @@ export function Header() {
     const { tableNo, sessionId } = useParams<{ tableNo: string; sessionId: string }>();
 
     if (!tableNo || !sessionId) return null
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        async function checkSession() {
+            if (!tableNo || !sessionId) return;
+
+            const isActive = await getOrderSessionStatus(tableNo, sessionId);
+
+            if (!isActive) {
+                alert("ออเดอร์นี้ถูกปิดแล้ว");
+                navigate("/closed"); // หรือหน้าอื่น
+            }
+        }
+
+        checkSession();
+    }, []);
 
     return (
         <header className="w-full border-b bg-white">
