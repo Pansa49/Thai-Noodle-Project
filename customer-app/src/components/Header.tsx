@@ -20,8 +20,8 @@ export function Header() {
             const isActive = await getOrderSessionStatus(tableNo, sessionId);
 
             if (!isActive) {
-                alert("ออเดอร์นี้ถูกปิดแล้ว");
-                navigate("/closed"); // หรือหน้าอื่น
+                alert("ออเดอร์นี้ถูกปิดแล้ว",);
+                navigate("/close"); // หรือหน้าอื่น
             }
         }
 
