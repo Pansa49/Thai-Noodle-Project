@@ -127,7 +127,7 @@ export function ListPage() {
                         className="px-10 py-3 rounded-xl bg-blue-500 text-white font-medium hover:bg-blue-600 active:scale-95 transition"
                         onClick={() => {
                             if (!tableNo || !sessionId) return;
-                            AddItemDb(items, tableNo, sessionId, "ordering", userID);
+                            AddItemDb(items, tableNo, sessionId);
                             clearItems();
                         }}
                     >

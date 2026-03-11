@@ -4,15 +4,13 @@ import type { CartItem } from "../../../shared/menuDetail";
 const BASE_URL = "https://thai-noodle-lab-customer-db-production.up.railway.app"
 //const TEST_URL = "http://localhost:3001"
 
-export async function AddItemDb(orders: CartItem[], tableNo: string, sessionId: string, status: string, userId: string) {
+export async function AddItemDb(orders: CartItem[], tableNo: string, sessionId: string) {
     for (const order of orders) {
         try {
             const orderData = {
-                userId: userId,
                 ...order,
                 tableNo: tableNo,
                 sessionId: sessionId,
-                status: status
             };
             await axios.post(
                 `${BASE_URL}/orders`,
