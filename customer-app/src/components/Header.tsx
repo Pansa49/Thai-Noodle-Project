@@ -24,12 +24,12 @@ export function Header() {
             if (!isActive) {
                 console.log("isActivr under if" + isActive)
                 alert("ออเดอร์นี้ถูกปิดแล้ว",);
-                navigate("/close"); // หรือหน้าอื่น
+                //navigate("/close"); // หรือหน้าอื่น
             }
         }
 
         checkSession();
-    }, []);
+    }, [tableNo, sessionId, navigate]);
 
     return (
         <header className="w-full border-b bg-white">
