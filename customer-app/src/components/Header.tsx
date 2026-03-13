@@ -1,11 +1,12 @@
 import { NavLink, useParams, useNavigate } from "react-router-dom";
 import { useCartContext } from "../hook/use-cart-context";
-import { useEffect } from "react";
-import { getOrderSessionStatus } from "../../../shared/api/fetchData"
+import { useEffect, useState } from "react";
+import { getOrderSessionStatus } from "../../../shared/api/fetchData";
 
 
 export function Header() {
 
+    const [headerAtt, setHeaderAtt] = useState("");
     const { items } = useCartContext()
     const { tableNo, sessionId } = useParams<{ tableNo: string; sessionId: string }>();
 
@@ -14,6 +15,7 @@ export function Header() {
     const navigate = useNavigate();
 
     useEffect(() => {
+
         async function checkSession() {
             if (!tableNo || !sessionId) return;
 
@@ -26,7 +28,7 @@ export function Header() {
         }
 
         checkSession();
-    }, [tableNo, sessionId, navigate]);
+    }, [tableNo, sessionId, navigate, headerAtt]);
 
     return (
         <header className="w-full border-b bg-white">
@@ -39,17 +41,19 @@ export function Header() {
                                 ? "bg-blue-500 text-white rounded-md"
                                 : "hover:bg-blue-300 rounded-md transition"
                         }
+                        onClick={() => setHeaderAtt("menu")}
                     >
                         Menu
                     </NavLink>
 
                     <NavLink
-                        to={`list/${tableNo}/${sessionId}`}
+                        to={`/list/${tableNo}/${sessionId}`}
                         className={({ isActive }) =>
                             isActive
                                 ? "bg-blue-500 text-white rounded-md relative cursor-pointer"
                                 : "hover:bg-blue-300 rounded-md transition relative cursor-pointer"
                         }
+                        onClick={() => setHeaderAtt("list")}
                     >
 
                         List
@@ -61,12 +65,13 @@ export function Header() {
                     </NavLink>
 
                     <NavLink
-                        to={`bill/${tableNo}/${sessionId}`}
+                        to={`/bill/${tableNo}/${sessionId}`}
                         className={({ isActive }) =>
                             isActive
                                 ? "bg-blue-500 text-white rounded-md"
                                 : "hover:bg-blue-300 rounded-md transition"
                         }
+                        onClick={() => setHeaderAtt("bill")}
                     >
                         Bill
                     </NavLink>
