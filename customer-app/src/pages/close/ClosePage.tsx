@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 export function ClosePage() {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 px-4">
@@ -26,15 +24,6 @@ export function ClosePage() {
                 <div className="border-t pt-4 text-sm text-gray-400">
                     ขอบคุณที่ใช้บริการ 🙏
                 </div>
-
-                {/* Optional Button */}
-                <Link
-                    to="/"
-                    className="inline-block mt-2 px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition"
-                >
-                    กลับหน้าหลัก
-                </Link>
-
             </div>
 
         </div>

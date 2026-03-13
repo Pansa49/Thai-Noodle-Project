@@ -15,7 +15,6 @@ export function Header() {
     const navigate = useNavigate();
 
     useEffect(() => {
-
         async function checkSession() {
             if (!tableNo || !sessionId) return;
 
