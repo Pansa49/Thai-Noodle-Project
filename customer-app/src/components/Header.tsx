@@ -8,7 +8,6 @@ export function Header() {
 
     const { items } = useCartContext()
     const { tableNo, sessionId } = useParams<{ tableNo: string; sessionId: string }>();
-    const [loading, setLoading] = useState(false);
 
     if (!tableNo || !sessionId) return null
 
@@ -40,8 +39,7 @@ export function Header() {
     const handleClick = async (e: React.MouseEvent, path: string) => {
         e.preventDefault(); // ❗ หยุด NavLink ก่อน
 
-        if (loading) return; // ❗ กันกดรัว
-        setLoading(true);
+        if (!tableNo || !sessionId) return;
 
         try {
             const isActive = await getOrderSessionStatus(tableNo, sessionId);
@@ -52,11 +50,9 @@ export function Header() {
                 return;
             }
 
-            navigate(path);
+            navigate(path); // ✅ ค่อยไป
         } catch (err) {
             console.error(err);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -68,11 +64,9 @@ export function Header() {
                         to={`/menu/${tableNo}/${sessionId}`}
                         onClick={(e) => handleClick(e, `/menu/${tableNo}/${sessionId}`)}
                         className={({ isActive }) =>
-                            `
-    ${isActive ? "bg-blue-500 text-white" : "hover:bg-blue-300"}
-    rounded-md transition
-    ${loading ? "opacity-50 pointer-events-none" : ""}
-    `
+                            isActive
+                                ? "bg-blue-500 text-white rounded-md"
+                                : "hover:bg-blue-300 rounded-md transition"
                         }
                     >
                         Menu
@@ -82,11 +76,9 @@ export function Header() {
                         to={`/list/${tableNo}/${sessionId}`}
                         onClick={(e) => handleClick(e, `/list/${tableNo}/${sessionId}`)}
                         className={({ isActive }) =>
-                            `
-    ${isActive ? "bg-blue-500 text-white" : "hover:bg-blue-300"}
-    rounded-md transition
-    ${loading ? "opacity-50 pointer-events-none" : ""}
-    `
+                            isActive
+                                ? "bg-blue-500 text-white rounded-md"
+                                : "hover:bg-blue-300 rounded-md transition"
                         }
                     >
 
@@ -102,11 +94,9 @@ export function Header() {
                         to={`/bill/${tableNo}/${sessionId}`}
                         onClick={(e) => handleClick(e, `/bill/${tableNo}/${sessionId}`)}
                         className={({ isActive }) =>
-                            `
-    ${isActive ? "bg-blue-500 text-white" : "hover:bg-blue-300"}
-    rounded-md transition
-    ${loading ? "opacity-50 pointer-events-none" : ""}
-    `
+                            isActive
+                                ? "bg-blue-500 text-white rounded-md"
+                                : "hover:bg-blue-300 rounded-md transition"
                         }
                     >
                         Bill
