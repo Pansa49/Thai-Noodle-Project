@@ -1,12 +1,11 @@
 import { NavLink, useParams, useNavigate } from "react-router-dom";
 import { useCartContext } from "../hook/use-cart-context";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getOrderSessionStatus } from "../../../shared/api/fetchData";
 
 
 export function Header() {
 
-    const [headerAtt, setHeaderAtt] = useState("");
     const { items } = useCartContext()
     const { tableNo, sessionId } = useParams<{ tableNo: string; sessionId: string }>();
 
@@ -17,27 +16,30 @@ export function Header() {
     useEffect(() => {
         async function checkSession() {
             if (!tableNo || !sessionId) return;
+            try {
+                const isActive = await getOrderSessionStatus(tableNo, sessionId);
 
-            const isActive = await getOrderSessionStatus(tableNo, sessionId);
+                if (!isActive) {
+                    alert("ออเดอร์นี้ถูกปิดแล้ว");
+                    navigate("/close");
+                }
 
-            if (!isActive) {
-                alert("ออเดอร์นี้ถูกปิดแล้ว",);
-                navigate("/close");
+            } catch (err) {
+                console.error(err);
+                console.log({
+                    tableNo: tableNo,
+                    sessionId: sessionId
+                })
             }
-
-            console.log({
-                tableNo: tableNo,
-                sessionId: sessionId
-            })
         }
 
         checkSession();
-    }, [tableNo, sessionId, navigate, headerAtt]);
+    }, [tableNo, sessionId, navigate]);
 
     return (
         <header className="w-full border-b bg-white">
             <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-center">
-                <nav className="flex gap-5 text-smmd:text-base md:gap-12text-gray-600 font-medium">
+                <nav className="flex gap-5 text-sm md:text-base md:gap-12 text-gray-600 font-medium">
                     <NavLink
                         to={`/menu/${tableNo}/${sessionId}`}
                         className={({ isActive }) =>
@@ -45,7 +47,6 @@ export function Header() {
                                 ? "bg-blue-500 text-white rounded-md"
                                 : "hover:bg-blue-300 rounded-md transition"
                         }
-                        onClick={() => setHeaderAtt("menu")}
                     >
                         Menu
                     </NavLink>
@@ -57,7 +58,6 @@ export function Header() {
                                 ? "bg-blue-500 text-white rounded-md relative cursor-pointer"
                                 : "hover:bg-blue-300 rounded-md transition relative cursor-pointer"
                         }
-                        onClick={() => setHeaderAtt("list")}
                     >
 
                         List
@@ -75,7 +75,6 @@ export function Header() {
                                 ? "bg-blue-500 text-white rounded-md"
                                 : "hover:bg-blue-300 rounded-md transition"
                         }
-                        onClick={() => setHeaderAtt("bill")}
                     >
                         Bill
                     </NavLink>
