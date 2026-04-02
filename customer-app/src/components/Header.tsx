@@ -1,6 +1,6 @@
 import { NavLink, useParams, useNavigate } from "react-router-dom";
 import { useCartContext } from "../hook/use-cart-context";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getOrderSessionStatus } from "../../../shared/api/fetchData";
 
 
