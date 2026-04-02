@@ -24,6 +24,11 @@ export function Header() {
                 alert("ออเดอร์นี้ถูกปิดแล้ว",);
                 navigate("/close");
             }
+
+            console.log({
+                tableNo: tableNo,
+                sessionId: sessionId
+            })
         }
 
         checkSession();
