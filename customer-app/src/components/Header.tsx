@@ -1,6 +1,6 @@
 import { NavLink, useParams, useNavigate } from "react-router-dom";
-import { useCartContext } from "../hook/use-cart-context";
 import { useEffect } from "react";
+import { useCartContext } from "../hook/use-cart-context";
 import { getOrderSessionStatus } from "../../../shared/api/fetchData";
 
 
@@ -14,47 +14,21 @@ export function Header() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        async function checkSession() {
-            if (!tableNo || !sessionId) return;
-            try {
-                const isActive = await getOrderSessionStatus(tableNo, sessionId);
+        async function checkStatus() {
+            const session = await getOrderSessionStatus(tableNo!, sessionId!)
 
-                if (!isActive) {
-                    alert("ออเดอร์นี้ถูกปิดแล้ว");
-                    navigate("/close");
-                }
-
-            } catch (err) {
-                console.error(err);
-                console.log({
-                    tableNo: tableNo,
-                    sessionId: sessionId
-                })
-            }
-        }
-
-        checkSession();
-    }, [tableNo, sessionId, navigate]);
-
-    const handleClick = async (e: React.MouseEvent, path: string) => {
-        e.preventDefault(); // ❗ หยุด NavLink ก่อน
-
-        if (!tableNo || !sessionId) return;
-
-        try {
-            const isActive = await getOrderSessionStatus(tableNo, sessionId);
-
-            if (!isActive) {
-                alert("ออเดอร์นี้ถูกปิดแล้ว");
+            if (!session) {
                 navigate("/close");
-                return;
+                console.log(session + "session" + "ปิด session แล้ว")
             }
-
-            navigate(path); // ✅ ค่อยไป
-        } catch (err) {
-            console.error(err);
         }
-    };
+
+        checkStatus() // เช็คครั้งแรกทันที
+
+        const interval = setInterval(checkStatus, 5000) // เช็คทุก 5 วิ
+
+        return () => clearInterval(interval) // 🔥 สำคัญมาก
+    }, [tableNo, sessionId])
 
     return (
         <header className="w-full border-b bg-white">
@@ -62,7 +36,6 @@ export function Header() {
                 <nav className="flex gap-5 text-sm md:text-base md:gap-12 text-gray-600 font-medium">
                     <NavLink
                         to={`/menu/${tableNo}/${sessionId}`}
-                        onClick={(e) => handleClick(e, `/menu/${tableNo}/${sessionId}`)}
                         className={({ isActive }) =>
                             isActive
                                 ? "bg-blue-500 text-white rounded-md"
@@ -74,7 +47,6 @@ export function Header() {
 
                     <NavLink
                         to={`/list/${tableNo}/${sessionId}`}
-                        onClick={(e) => handleClick(e, `/list/${tableNo}/${sessionId}`)}
                         className={({ isActive }) =>
                             isActive
                                 ? "bg-blue-500 text-white rounded-md"
@@ -92,7 +64,6 @@ export function Header() {
 
                     <NavLink
                         to={`/bill/${tableNo}/${sessionId}`}
-                        onClick={(e) => handleClick(e, `/bill/${tableNo}/${sessionId}`)}
                         className={({ isActive }) =>
                             isActive
                                 ? "bg-blue-500 text-white rounded-md"
