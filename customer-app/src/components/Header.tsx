@@ -49,11 +49,10 @@ export function Header() {
                         to={`/list/${tableNo}/${sessionId}`}
                         className={({ isActive }) =>
                             isActive
-                                ? "bg-blue-500 text-white rounded-md"
-                                : "hover:bg-blue-300 rounded-md transition"
+                                ? "bg-blue-500 text-white rounded-md relative cursor-pointer"
+                                : "hover:bg-blue-300 rounded-md transition relative cursor-pointer"
                         }
                     >
-
                         List
                         {items.length > 0 && (
                             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
