@@ -6,5 +6,7 @@ export async function getOrderSessionStatus(tableID: string, sessionID: string):
     const res = await fetch(`${URL_TEST}/orderSessions?tableId=${tableID}&orderId=${sessionID}`);
     const data = await res.json();
 
+    console.log({ data: data[0]?.active ?? false });
+
     return data[0]?.active ?? false;
 }
