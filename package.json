@@ -6,7 +6,6 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "backend": "npm run dev --prefix backend",
     "backend-staff": "npm run dev --prefix backend-staff",
     "customer": "npm run dev --prefix customer-app",
     "staff": "npm run dev --prefix staff-app",
