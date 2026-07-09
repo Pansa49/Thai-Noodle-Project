@@ -52,5 +52,6 @@
     }
   ],
   "orders": [],
-  "orderSessions": []
+  "orderSessions": [],
+  "orderDetails": []
 }
