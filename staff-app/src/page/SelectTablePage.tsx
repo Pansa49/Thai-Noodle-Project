@@ -122,8 +122,12 @@ export function SelectedTable() {
     }
 
     const getTableQR = (sessionId: string, tableId: number) => {
-        const BASE_URL = "https://thai-noodle-project-customer.vercel.app";
-        return `${BASE_URL}/menu/${tableId}/${sessionId}`;
+        // const VERCEL_URL = "https://thai-noodle-project-customer.vercel.app";
+        const BASE_URL = "http://localhost:5173"
+
+        const FINAL_Url = `${BASE_URL}/menu/${tableId}/${sessionId}`
+        console.log(FINAL_Url)
+        return FINAL_Url;
     };
 
     const handleReservation = async () => {
