@@ -160,7 +160,7 @@ export function SelectedTable() {
                     max={25}
                     value={tableCount}
                     onChange={(e) => setTableCount(Number(e.target.value))}
-                    className="border px-4 py-2 rounded-lg w-15"
+                    className="border px-4 py-2 rounded-lg w-20"
                 />
 
                 <button
