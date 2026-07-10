@@ -1,18 +1,6 @@
 import { useState, useEffect } from "react"
-import {
-    getTables,
-    createTables,
-    saveTablesLayout,
-    deleteTables,
-    createOrder,
-    createSession,
-    closeOrder,
-    closeSession
-} from "../api/fetchData";
+import { getTables, createTables, saveTablesLayout, deleteTables, createOrder, createSession, closeOrder, closeSession } from "../api/fetchData";
 
-import { DndContext, useDraggable, } from "@dnd-kit/core";
-import type { DragEndEvent } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
 import { QRCodeSVG } from "qrcode.react";
 
 interface Table {
@@ -37,13 +25,8 @@ interface OrderSession {
     active: boolean;
 }
 
-const PADDING = 20;
-const GRID_SIZE = 20;
-const tableSize = window.innerWidth < 768 ? 70 : 100;
-
 export function SelectedTable() {
     const [tables, setTables] = useState<Table[]>([]);
-    const [isEditMode, setIsEditMode] = useState(false);
     const [tableCount, setTableCount] = useState(2);
     const [selectedTable, setSelectedTable] = useState<Table | null>(null);
 
@@ -54,13 +37,6 @@ export function SelectedTable() {
     useEffect(() => {
         loadTables();
     }, []);
-
-    const saveLayout = async () => {
-        if (isEditMode) {
-            await saveTablesLayout(tables);
-        }
-        setIsEditMode(!isEditMode);
-    };
 
     const loadTables = async () => {
         const data = await getTables();
@@ -78,46 +54,22 @@ export function SelectedTable() {
     };
 
     const generateTables = async () => {
-
         const oldTables = await getTables();
-
-        for (const table of oldTables) {
-            await deleteTables(table.id);
-        }
-
-        const container = document.getElementById("table-container");
-        if (!container) return;
-
-        const rect = container.getBoundingClientRect();
-        const width = rect.width;
-        const height = rect.height;
+        setTables([]);
+        await Promise.all(oldTables.map((table: Table) => deleteTables(table.id.toString())));
 
         const newTables: Table[] = [];
-        const tableSize = width < 768 ? 70 : 100;
-        const GAP = 14;
-
-        const usableWidth = width - PADDING * 2;
-        const perRow = Math.floor(usableWidth / (tableSize + GAP));
 
         for (let i = 0; i < tableCount; i++) {
-            const row = Math.floor(i / perRow);
-            const col = i % perRow;
-
-            const x = PADDING + col * (tableSize + GAP);
-            const y = PADDING + row * (tableSize + GAP);
-
-            if (y > height - tableSize - PADDING) break;
-
             newTables.push({
                 id: i + 1,
                 name: `${i + 1}`,
-                x,
-                y,
+                x: 0,
+                y: 0,
                 status: "available",
             });
         }
         setTables(newTables);
-
         await createTables(newTables);
     }
 
@@ -197,50 +149,10 @@ export function SelectedTable() {
         setSelectedTable(null);
     };
 
-    const handleDragEnd = (event: DragEndEvent) => {
-        if (!isEditMode) return;
-
-        const { active, delta } = event;
-
-        const container = document.getElementById("table-container");
-        if (!container) return;
-
-        const rect = container.getBoundingClientRect();
-
-        const width = rect.width;
-        const height = rect.height;
-
-        setTables((prev) =>
-            prev.map((table) => {
-                if (table.id !== active.id) return table;
-
-                let newX = table.x + delta.x;
-                let newY = table.y + delta.y;
-                // ✅ SNAP TO GRID
-                newX = Math.round(newX / GRID_SIZE) * GRID_SIZE;
-                newY = Math.round(newY / GRID_SIZE) * GRID_SIZE;
-
-                // ✅ กันเลยขอบ + เว้น padding
-                const clampedX = Math.max(
-                    PADDING,
-                    Math.min(newX, width - tableSize - PADDING)
-                );
-
-                const clampedY = Math.max(
-                    PADDING,
-                    Math.min(newY, height - tableSize - PADDING)
-                );
-
-                return { ...table, x: clampedX, y: clampedY };
-            })
-        );
-    }
-
     return (
         <div className="p-10 space-y-6">
             <h1 className="text-3xl font-bold">จัดผังโต๊ะ</h1>
 
-            {/* 🔥 ช่องกรอกจำนวนโต๊ะ */}
             <div className="flex gap-4 items-center">
                 <input
                     type="number"
@@ -259,13 +171,6 @@ export function SelectedTable() {
                 </button>
 
                 <button
-                    onClick={saveLayout}
-                    className={`px-5 py-2 rounded-lg text-white ${isEditMode ? "bg-red-500" : "bg-blue-600"}`}
-                >
-                    {isEditMode ? "เสร็จสิ้น" : "แก้ไขตำแหน่ง"}
-                </button>
-
-                <button
                     onClick={resetLayout}
                     className="bg-red-600 text-white px-4 py-2 rounded-lg"
                 >
@@ -273,50 +178,21 @@ export function SelectedTable() {
                 </button>
             </div>
 
-            <DndContext onDragEnd={handleDragEnd}>
-                <div
-                    id="table-container"
-                    className="relative border-2 rounded-xl bg-gray-100 w-full max-w-5xl h-[75vh] mx-auto"
-                >
-                    {isEditMode && (
-                        <div className="absolute inset-0 pointer-events-none z-0">
-                            <div
-                                className="w-full h-full"
-                                style={{
-                                    backgroundImage: `
-                            repeating-linear-gradient(
-                                to right,
-                                rgba(0,0,0,0.25) 0px,
-                                rgba(0,0,0,0.25) 1px,
-                                transparent 1px,
-                                transparent 20px
-                            ),
-                            repeating-linear-gradient(
-                                to bottom,
-                                rgba(0,0,0,0.25) 0px,
-                                rgba(0,0,0,0.25) 1px,
-                                transparent 1px,
-                                transparent 20px
-                            )
-                        `
-                                }}
-                            />
-                        </div>
-                    )}
-                    {tables.map((table) => (
-                        <DraggableTable
-                            key={table.id}
-                            table={table}
-                            isEditMode={isEditMode}
-                            onSelect={() => {
-                                if (!isEditMode) {
-                                    setSelectedTable(table);
-                                }
-                            }}
-                        />
-                    ))}
-                </div>
-            </DndContext>
+            <div
+                id="table-container"
+                // className="relative border-2 rounded-xl bg-gray-100 w-full md:min-w-3xl max-w-5xl h-[75vh] mx-auto"
+                className="p-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 border-2 rounded-xl bg-gray-100 w-full md:min-w-3xl max-w-5xl h-[75vh] mx-auto overflow-y-auto"
+            >
+                {tables.map((table) =>
+                (
+                    <StaticTable
+                        key={table.id}
+                        table={table}
+                        onSelect={() => setSelectedTable(table)}
+                    />
+                )
+                )}
+            </div>
 
             {selectedTable && (
                 <div
@@ -394,39 +270,22 @@ export function SelectedTable() {
     );
 }
 
-function DraggableTable({ table, isEditMode, onSelect, }: { table: Table; isEditMode: boolean; onSelect: () => void; }) {
-    const { attributes, listeners, setNodeRef, transform } = useDraggable({
-        id: table.id,
-        disabled: !isEditMode,
-    });
-
-    const style = {
-        position: "absolute" as const,
-        left: table.x,
-        top: table.y,
-        transform: CSS.Translate.toString(transform),
-        width: tableSize,
-        height: tableSize,
-    };
+function StaticTable({ table, onSelect }: { table: Table; onSelect: () => void }) {
+    const style = { width: "100%", aspectRatio: "1/1" };
 
     return (
         <div
-            ref={setNodeRef}
             style={style}
-            {...listeners}
-            {...attributes}
             onClick={onSelect}
             className={`rounded-xl flex flex-col items-center justify-center
-text-white font-semibold shadow-lg select-none
-border-2 border-black transition-colors duration-200
-${isEditMode
-                    ? "bg-yellow-500 cursor-grab"
-                    : table.status === "occupied"
-                        ? "bg-red-500 cursor-pointer hover:bg-red-600"
-                        : "bg-green-500 hover:bg-green-600 cursor-pointer"
+            text-white font-semibold shadow-lg select-none p-4
+            border-2 border-black transition-all duration-200 cursor-pointer
+            ${table.status === "occupied"
+                    ? "bg-red-500 hover:bg-red-600 scale-[0.98]"
+                    : "bg-green-500 hover:bg-green-600 hover:scale-[1.02]"
                 }`}
         >
-            <div>{table.name}</div>
+            <div className="text-2xl">โต๊ะ {table.name}</div>
         </div>
     );
 }
