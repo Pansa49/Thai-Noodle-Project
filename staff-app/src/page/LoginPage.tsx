@@ -46,7 +46,7 @@ export function LoginPage() {
 
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300">
 
-            <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl">
+            <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl m-5">
 
                 <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
                     เข้าสู่ระบบ
@@ -62,12 +62,12 @@ export function LoginPage() {
 
                     <div>
                         <label className="block text-sm text-gray-600 mb-1">
-                            Email
+                            อีเมล
                         </label>
                         <input
                             type="email"
                             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
-                            placeholder="example@email.com"
+                            placeholder="name@company.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -75,7 +75,7 @@ export function LoginPage() {
 
                     <div>
                         <label className="block text-sm text-gray-600 mb-1">
-                            Password
+                            รหัสผ่าน
                         </label>
                         <input
                             type="password"
