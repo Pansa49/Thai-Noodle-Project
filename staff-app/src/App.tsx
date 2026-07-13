@@ -18,7 +18,9 @@ const router = createBrowserRouter([
     path: "/selected_table",
     element: (
       <ProtectedRoute>
-        <Body />
+        <div className="flex min-h-screen items-center justify-center bg-slate-100 p-4 font-sans text-slate-800 md:p-8">
+          <Body />
+        </div>
       </ProtectedRoute>
     ),
     children: [

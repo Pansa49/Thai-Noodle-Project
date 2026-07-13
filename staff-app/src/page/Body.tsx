@@ -5,7 +5,7 @@ export function Body() {
     return (
         <div
             id="body-container"
-            className="mx-auto w-full max-w-[900px] px-4 md:px-10 flex flex-col h-screen">
+            className="mx-auto flex h-[90vh] max-h-[850px] w-full max-w-5xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl">
             <Header />
             <Outlet />
         </div>

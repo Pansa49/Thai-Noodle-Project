@@ -150,32 +150,32 @@ export function SelectedTable() {
     };
 
     return (
-        <div
-            id="selecttable-container"
-            className="p-10 space-y-6 flex-1">
+        <div id="selecttable-container"
+            className="flex flex-1 flex-col space-y-6 overflow-hidden p-6 md:p-8">
 
-            <h1 className="text-3xl font-bold">จัดผังโต๊ะ</h1>
+            <h1 className="text-2xl font-bold text-slate-800">จัดผังโต๊ะ</h1>
+            <p className="mt-1 text-sm text-slate-500">กำหนดจำนวนโต๊ะและสถานะภายในร้าน</p>
 
-            <div className="flex gap-4 items-center">
+            <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-2">
                 <input
                     type="number"
                     min={1}
                     max={25}
                     value={tableCount}
                     onChange={(e) => setTableCount(Number(e.target.value))}
-                    className="border px-4 py-2 rounded-lg w-20"
+                    className="w-24 rounded-xl border border-slate-200 px-4 py-2 text-center font-semibold text-slate-700 transition outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
                 />
 
                 <button
                     onClick={generateTables}
-                    className="bg-green-600 text-white px-5 py-2 rounded-lg"
+                    className="rounded-xl bg-emerald-500 px-5 py-2 font-medium text-white shadow-sm shadow-emerald-200 transition duration-200 hover:bg-emerald-600 active:scale-95"
                 >
                     สร้างโต๊ะ
                 </button>
 
                 <button
                     onClick={resetLayout}
-                    className="bg-red-600 text-white px-4 py-2 rounded-lg"
+                    className="rounded-xl bg-rose-100 px-4 py-2 font-medium text-slate-700 transition duration-200 hover:bg-rose-200 active:scale-95"
                 >
                     Reset
                 </button>
@@ -183,7 +183,7 @@ export function SelectedTable() {
 
             <div
                 id="table-container"
-                className="p-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 border-2 rounded-xl bg-gray-100 w-full h-[75vh] mx-auto overflow-y-auto content-start"
+                className="grid flex-1 grid-cols-2 content-start gap-5 overflow-y-auto rounded-2xl border border-slate-200 bg-slate-50/70 p-6 shadow-inner sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 w-full h-[75vh] mx-auto"
             >
                 {tables.map((table) =>
                 (
@@ -278,13 +278,14 @@ function StaticTable({ table, onSelect }: { table: Table; onSelect: () => void }
             onClick={onSelect}
             className={`w-full aspect-square rounded-xl flex flex-col items-center justify-center
             text-white font-semibold shadow-lg select-none p-4
-            border-2 border-black transition-all duration-200 cursor-pointer
+            transition-all duration-200 cursor-pointer
             ${table.status === "occupied"
                     ? "bg-red-500 hover:bg-red-600 scale-[0.98]"
                     : "bg-green-500 hover:bg-green-600 hover:scale-[1.02]"
                 }`}
         >
-            <div className="text-2xl">โต๊ะ {table.name}</div>
+            <span className="mb-1 text-3xl drop-shadow-sm">🍽️</span>
+            <div className="text-xl tracking-wide drop-shadow-sm">โต๊ะ {table.name}</div>
         </div>
     );
 }
