@@ -150,7 +150,10 @@ export function SelectedTable() {
     };
 
     return (
-        <div className="p-10 space-y-6">
+        <div
+            id="selecttable-container"
+            className="p-10 space-y-6 flex-1">
+
             <h1 className="text-3xl font-bold">จัดผังโต๊ะ</h1>
 
             <div className="flex gap-4 items-center">
@@ -180,8 +183,7 @@ export function SelectedTable() {
 
             <div
                 id="table-container"
-                // className="relative border-2 rounded-xl bg-gray-100 w-full md:min-w-3xl max-w-5xl h-[75vh] mx-auto"
-                className="p-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 border-2 rounded-xl bg-gray-100 w-full md:min-w-3xl max-w-5xl h-[75vh] mx-auto overflow-y-auto"
+                className="p-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 border-2 rounded-xl bg-gray-100 w-full h-[75vh] mx-auto overflow-y-auto content-start"
             >
                 {tables.map((table) =>
                 (
@@ -271,13 +273,10 @@ export function SelectedTable() {
 }
 
 function StaticTable({ table, onSelect }: { table: Table; onSelect: () => void }) {
-    const style = { width: "100%", aspectRatio: "1/1" };
-
     return (
         <div
-            style={style}
             onClick={onSelect}
-            className={`rounded-xl flex flex-col items-center justify-center
+            className={`w-full aspect-square rounded-xl flex flex-col items-center justify-center
             text-white font-semibold shadow-lg select-none p-4
             border-2 border-black transition-all duration-200 cursor-pointer
             ${table.status === "occupied"

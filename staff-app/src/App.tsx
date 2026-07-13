@@ -32,7 +32,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className="inset-0 bg-black/10">
+    <div>
       <RouterProvider router={router} />
     </div>
   )

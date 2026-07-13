@@ -13,7 +13,9 @@ export function Header() {
 
 
     return (
-        <header className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
+        <header
+            id="header-container"
+            className="bg-white shadow-md px-6 py-4 flex items-center justify-between">
 
             {/* Logo / Title */}
             <h1 className="text-xl font-bold text-gray-800">
