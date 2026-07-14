@@ -31,29 +31,45 @@ export function Header() {
     }, [tableNo, sessionId])
 
     return (
-        <header className="w-full border-b bg-white">
-            <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-center">
-                <nav className="flex gap-5 text-sm md:text-base md:gap-12 text-gray-600 font-medium">
+        <header
+            id="header-container">
+            <div id="header-top-container"
+                className="sticky top-0 z-40 border-b border-slate-100 bg-white/80 backdrop-blur-md px-4 py-3 flex items-center justify-between"
+            >
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Easy Order</span>
+                <div className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm font-extrabold flex items-center gap-1">
+                    <span>📍</span> โต๊ะ {tableNo}
+                </div>
+            </div>
+
+            <div id="header-bot-container"
+                className="fixed bottom-0 w-full left-0 right-0 z-50 border-t border-slate-100 bg-black/95 backdrop-blur-md px-8 py-3 shadow-lg"
+            >
+                <nav className="flex justify-between text-sm md:text-base text-gray-600 font-medium">
                     <NavLink
                         to={`/menu/${tableNo}/${sessionId}`}
                         className={({ isActive }) =>
-                            isActive
-                                ? "bg-blue-500 text-white rounded-md"
-                                : "hover:bg-blue-300 rounded-md transition"
+                            `flex flex-col items-center gap-1 py-1 px-3 transition-colors ${isActive
+                                ? "bg-blue-500 text-white rounded-md relative cursor-pointer"
+                                : "hover:bg-blue-300 rounded-md transition relative cursor-pointer"
+                            }`
                         }
                     >
-                        Menu
+                        <span className="text-xl">📋</span>
+                        เมนู
                     </NavLink>
 
                     <NavLink
                         to={`/list/${tableNo}/${sessionId}`}
                         className={({ isActive }) =>
-                            isActive
+                            `flex flex-col items-center gap-1 py-1 px-3 transition-colors ${isActive
                                 ? "bg-blue-500 text-white rounded-md relative cursor-pointer"
                                 : "hover:bg-blue-300 rounded-md transition relative cursor-pointer"
+                            }`
                         }
                     >
-                        List
+                        <span className="text-xl">⏳</span>
+                        รายการอาหาร
                         {items.length > 0 && (
                             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
                                 {items.length}
@@ -64,12 +80,14 @@ export function Header() {
                     <NavLink
                         to={`/bill/${tableNo}/${sessionId}`}
                         className={({ isActive }) =>
-                            isActive
-                                ? "bg-blue-500 text-white rounded-md"
-                                : "hover:bg-blue-300 rounded-md transition"
+                            `flex flex-col items-center gap-1 py-1 px-3 transition-colors ${isActive
+                                ? "bg-blue-500 text-white rounded-md relative cursor-pointer"
+                                : "hover:bg-blue-300 rounded-md transition relative cursor-pointer"
+                            }`
                         }
                     >
-                        Bill
+                        <span className="text-xl">💵</span>
+                        เช็คบิล
                     </NavLink>
                 </nav>
             </div>
