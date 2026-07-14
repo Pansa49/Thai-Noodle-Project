@@ -26,7 +26,7 @@ export function MenuPage() {
                         <p className="text-xs font-semibold text-slate-500 mt-0.5">{menu.price} บาท</p>
 
                         <button
-                            className="mt-4 w-full py-2.5 rounded-xl bg-slate-900 text-white text-xs font-bold transition-all hover:bg-slate-800 active:scale-95 transition"
+                            className="mt-4 w-full py-2.5 rounded-xl bg-slate-900 text-white text-xs font-bold transition-all hover:bg-slate-800 active:scale-95"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setSelectedSoup(menu);
