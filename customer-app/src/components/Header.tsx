@@ -43,13 +43,13 @@ export function Header() {
             </div>
 
             <div id="header-bot-container"
-                className="fixed bottom-0 w-full left-0 right-0 z-50 border-t border-slate-100 bg-black/95 backdrop-blur-md px-8 py-3 shadow-lg"
+                className="fixed bottom-0 w-full left-0 right-0 z-50 border-t border-slate-100 bg-white/95 backdrop-blur-md px-8 py-3 shadow-lg"
             >
                 <nav className="flex justify-between text-sm md:text-base text-gray-600 font-medium">
                     <NavLink
                         to={`/menu/${tableNo}/${sessionId}`}
                         className={({ isActive }) =>
-                            `flex flex-col items-center gap-1 py-1 px-3 transition-colors ${isActive
+                            `flex flex-col items-center gap-0.5 py-1 px-3 transition-colors ${isActive
                                 ? "bg-blue-500 text-white rounded-md relative cursor-pointer"
                                 : "hover:bg-blue-300 rounded-md transition relative cursor-pointer"
                             }`
@@ -62,7 +62,7 @@ export function Header() {
                     <NavLink
                         to={`/list/${tableNo}/${sessionId}`}
                         className={({ isActive }) =>
-                            `flex flex-col items-center gap-1 py-1 px-3 transition-colors ${isActive
+                            `flex flex-col items-center gap-0.5 py-1 px-3 transition-colors ${isActive
                                 ? "bg-blue-500 text-white rounded-md relative cursor-pointer"
                                 : "hover:bg-blue-300 rounded-md transition relative cursor-pointer"
                             }`
@@ -80,7 +80,7 @@ export function Header() {
                     <NavLink
                         to={`/bill/${tableNo}/${sessionId}`}
                         className={({ isActive }) =>
-                            `flex flex-col items-center gap-1 py-1 px-3 transition-colors ${isActive
+                            `flex flex-col items-center gap-0.5 py-1 px-3 transition-colors ${isActive
                                 ? "bg-blue-500 text-white rounded-md relative cursor-pointer"
                                 : "hover:bg-blue-300 rounded-md transition relative cursor-pointer"
                             }`

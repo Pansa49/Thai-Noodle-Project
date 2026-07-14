@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import type { Menu } from "../../../../shared/menuDetail";
 import { PopUp } from "../../components/PopUP";
 
@@ -9,43 +9,35 @@ export function MenuPage() {
     const [openPopup, setOpenPopup] = useState(false);
     const [selectedSoup, setSelectedSoup] = useState<Menu | null>(null);
 
-    const { tableNo } = useParams<{ tableNo: string }>();
-
     return (
-        <div className="container py-12 space-y-8 px-10">
-            <div className="text-center space-y-3">
-                <h1 className="text-4xl font-extrabold text-gray-800">
-                    โต๊ะ {tableNo}
-                </h1>
+        <div
+            id="menu-container"
+            className="px-4 py-6 space-y-6">
+            <div className="grid grid-cols-2 gap-3">
+                {menus.map((menu) => (
+                    <div
+                        className="flex flex-col justify-between rounded-2xl border border-slate-100 bg-white p-3.5 shadow-sm transition-all active:scale-98"
+                        key={menu.id}
+                    >
+                        <div className="aspect-square w-full bg-slate-50 rounded-xl flex items-center justify-center text-4xl mb-3">
+                            🍜
+                        </div>
+                        <h3 className="font-bold text-slate-900 text-sm">{menu.name}</h3>
+                        <p className="text-xs font-semibold text-slate-500 mt-0.5">{menu.price} บาท</p>
 
-                <p className="text-gray-500">
-                    กรุณาเลือกเมนูที่ต้องการสั่ง
-                </p>
-            </div>
-            {menus.map((menu) => (
-                <div
-                    className="bg-white rounded-2xl shadow hover:shadow-lg transition p-5"
-                    key={menu.id}
-                >
-
-                    <div className="h-32 bg-gray-100 rounded-xl flex items-center justify-center text-4xl mb-4">
-                        🍜
+                        <button
+                            className="mt-4 w-full py-2.5 rounded-xl bg-slate-900 text-white text-xs font-bold transition-all hover:bg-slate-800 active:scale-95 transition"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedSoup(menu);
+                                setOpenPopup(true);
+                            }}>
+                            สั่ง
+                        </button>
                     </div>
+                ))}
+            </div>
 
-                    <h3 className="text-lg font-semibold">{menu.name}</h3>
-                    <p className="text-gray-500">{menu.price} บาท</p>
-
-                    <button
-                        className="mt-4 w-full py-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 active:scale-95 transition"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedSoup(menu);
-                            setOpenPopup(true);
-                        }}>
-                        สั่ง
-                    </button>
-                </div>
-            ))}
 
             <PopUp
                 id={null}
