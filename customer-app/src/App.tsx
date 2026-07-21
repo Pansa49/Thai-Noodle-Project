@@ -8,7 +8,7 @@ import { BillPage } from "./pages/bill/BillPage.tsx"
 import { billLoader } from "./pages/bill/billLoader.ts"
 import { ClosePage } from "./pages/close/ClosePage.tsx"
 
-import Root from "./pages/Root"
+import Root from "./pages/root"
 
 const router = createBrowserRouter([
   {
